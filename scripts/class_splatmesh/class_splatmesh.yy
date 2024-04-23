@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"class_splatmesh",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"class_splatmesh",
+  "parent":{
+    "name":"Rendering",
+    "path":"folders/Classes/Rendering.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

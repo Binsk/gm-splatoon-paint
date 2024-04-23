@@ -16,6 +16,7 @@
     {"$GMFolder":"","%Name":"2D Paint Test","folderPath":"folders/DemoScenes/2D Paint Test.yy","name":"2D Paint Test","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"3D Paint Test","folderPath":"folders/DemoScenes/3D Paint Test.yy","name":"3D Paint Test","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Functions","folderPath":"folders/Functions.yy","name":"Functions","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Sprites","folderPath":"folders/Sprites.yy","name":"Sprites","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Objects","folderPath":"folders/Objects.yy","name":"Objects","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Controllers","folderPath":"folders/Objects/Controllers.yy","name":"Controllers","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Rendering","folderPath":"folders/Objects/Rendering.yy","name":"Rendering","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -37,10 +38,12 @@
     {"id":{"name":"room_paint_test_2d","path":"rooms/room_paint_test_2d/room_paint_test_2d.yy",},},
     {"id":{"name":"room_paint_test_3d","path":"rooms/room_paint_test_3d/room_paint_test_3d.yy",},},
     {"id":{"name":"class_renderable","path":"scripts/class_renderable/class_renderable.yy",},},
-    {"id":{"name":"class_staticblockmesh","path":"scripts/class_staticblockmesh/class_staticblockmesh.yy",},},
+    {"id":{"name":"class_splatblockmesh","path":"scripts/class_splatblockmesh/class_splatblockmesh.yy",},},
+    {"id":{"name":"class_splatmesh","path":"scripts/class_splatmesh/class_splatmesh.yy",},},
     {"id":{"name":"class_staticmesh","path":"scripts/class_staticmesh/class_staticmesh.yy",},},
     {"id":{"name":"scr_matrix","path":"scripts/scr_matrix/scr_matrix.yy",},},
     {"id":{"name":"shd_render_splat","path":"shaders/shd_render_splat/shd_render_splat.yy",},},
+    {"id":{"name":"spr_block","path":"sprites/spr_block/spr_block.yy",},},
   ],
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
@@ -51,5 +54,6 @@
   "templateType":"game",
   "TextureGroups":[
     {"$GMTextureGroup":"","%Name":"Default","autocrop":true,"border":2,"compressFormat":"bz2","customOptions":"","directory":"","groupParent":null,"isScaled":true,"loadType":"default","mipsToGenerate":0,"name":"Default","resourceType":"GMTextureGroup","resourceVersion":"2.0","targets":-1,},
+    {"$GMTextureGroup":"","%Name":"MeshTextures","autocrop":false,"border":2,"compressFormat":"bz2","customOptions":"","directory":"","groupParent":null,"isScaled":false,"loadType":"default","mipsToGenerate":0,"name":"MeshTextures","resourceType":"GMTextureGroup","resourceVersion":"2.0","targets":-1,},
   ],
 }

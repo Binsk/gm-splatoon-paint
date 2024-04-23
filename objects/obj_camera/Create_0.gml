@@ -27,4 +27,8 @@ if (instance_number(obj_camera) > 1){
 	instance_destroy();
 	return;
 }
+
+gpu_set_cullmode(cull_counterclockwise);
+gpu_set_ztestenable(true);
+gpu_set_zwriteenable(true);
 #endregion

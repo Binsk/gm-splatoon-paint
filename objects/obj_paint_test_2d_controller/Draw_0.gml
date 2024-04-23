@@ -66,5 +66,6 @@ shader_set_uniform_f(shader_u_fcolora, 1.0 / 255 * color_get_red(color_a),
 shader_set_uniform_f(shader_u_fcolorb, 1.0 / 255 * color_get_red(color_b), 
 									   1.0 / 255 * color_get_green(color_b),
 									   1.0 / 255 * color_get_blue(color_b));
-draw_surface(surface_splat, 0, 0);
+texture_set_stage(shader_u_steamdata, surface_get_texture(surface_splat));
+draw_surface(surface_splat, 0, 0); // Surface here not really used; overlayed by second sampler
 shader_reset();
