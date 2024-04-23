@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"class_renderable",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"class_renderable",
+  "parent":{
+    "name":"Rendering",
+    "path":"folders/Classes/Rendering.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

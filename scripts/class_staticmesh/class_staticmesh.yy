@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"class_staticmesh",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"class_staticmesh",
+  "parent":{
+    "name":"Rendering",
+    "path":"folders/Classes/Rendering.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
