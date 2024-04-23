@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"scr_matrix",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_matrix",
+  "parent":{
+    "name":"Functions",
+    "path":"folders/Functions.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
