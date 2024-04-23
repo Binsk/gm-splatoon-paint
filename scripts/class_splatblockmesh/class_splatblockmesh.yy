@@ -1,9 +1,9 @@
 {
   "$GMScript":"",
-  "%Name":"class_staticblockmesh",
+  "%Name":"class_splatblockmesh",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"class_staticblockmesh",
+  "name":"class_splatblockmesh",
   "parent":{
     "name":"Rendering",
     "path":"folders/Classes/Rendering.yy",

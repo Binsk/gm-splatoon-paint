@@ -1,4 +1,4 @@
-function StaticBlockMesh(x = 0, y = 0, z = 0) : StaticMesh(x, y, z) constructor {
+function SplatBlockMesh(x = 0, y = 0, z = 0) : SplatMesh(x, y, z) constructor {
 	#region PROPERTIES
 	static MESH = undefined;
 	#endregion
@@ -41,6 +41,7 @@ function StaticBlockMesh(x = 0, y = 0, z = 0) : StaticMesh(x, y, z) constructor 
 			[+0, +0, -1]		// Base
 		];
 		
+			// Base UV positions and their relative x/y coordinates:
 		var uvposition_array = [
 			[0.25, 0.50],		// Southern wall
 			[0.50, 0.50],		// Eastern wall

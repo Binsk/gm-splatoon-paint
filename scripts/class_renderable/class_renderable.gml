@@ -19,5 +19,8 @@ function Renderable() constructor {
     
     /// @desc   Render the object to the scene.
     function render(){};
+    
+    /// @desc   Cleans up any dynamic resources that may be tied to this instance.
+    function free(){};
     #endregion
 }
