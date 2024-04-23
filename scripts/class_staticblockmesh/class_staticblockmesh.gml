@@ -41,24 +41,52 @@ function StaticBlockMesh(x = 0, y = 0, z = 0) : StaticMesh(x, y, z) constructor 
 			[+0, +0, -1]		// Base
 		];
 		
-		/// @stub Add uv array of sorts as we will need everything on a single 
-		///		  texture for splatter UV lookups; a limitation will be that UV
-		///		  coordinates CANNOT be used in >1 place, otherwise we will get
-		///		  a single splat mark showing up in multiple places on a mesh.
+		var uvposition_array = [
+			[0.25, 0.50],		// Southern wall
+			[0.50, 0.50],		// Eastern wall
+			[0.50, 0.25],		// Northern wall
+			[0.25, 0.25],		// Western wall
+			
+			[0.25, 0.25],		// Cap
+			[1.00, 0.25]		// Base
+		];
+		
+		var uvx_array = [
+			[+0.25, +0.00],
+			[+0.00, -0.25],
+			[-0.25, +0.00],
+			[+0.00, +0.25],
+			
+			[+0.25, +0.00],
+			[+0.00, +0.25]
+		];
+		
+		var uvy_array = [
+			[+0.00, +0.25],
+			[+0.25, +0.00],
+			[+0.00, -0.25],
+			[-0.25, +0.00],
+			
+			[+0.00, +0.25],
+			[-0.25, +0.00]
+		];
 		
 		for (var i = 0; i < 6; ++i){
 			var position = position_array[i];
 			var vectorx = vectorx_array[i];
 			var vectory = vectory_array[i];
 			var color = c_white;
+			var uv = uvposition_array[i];
+			var uv_x = uvx_array[i];
+			var uv_y = uvy_array[i];
 			
-			_add_vertex(MESH, position[0], position[1], position[2], 0, 0, color);
-			_add_vertex(MESH, position[0] + vectorx[0], position[1] + vectorx[1], position[2] + vectorx[2], 1, 0, color);
-			_add_vertex(MESH, position[0] + vectory[0], position[1] + vectory[1], position[2] + vectory[2], 0, 1, color);
+			_add_vertex(MESH, position[0], position[1], position[2], uv[0], uv[1], color);
+			_add_vertex(MESH, position[0] + vectorx[0], position[1] + vectorx[1], position[2] + vectorx[2], uv[0] + uv_x[0], uv[1] + uv_x[1], color);
+			_add_vertex(MESH, position[0] + vectory[0], position[1] + vectory[1], position[2] + vectory[2], uv[0] + uv_y[0], uv[1] + uv_y[1], color);
 			
-			_add_vertex(MESH, position[0] + vectorx[0], position[1] + vectorx[1], position[2] + vectorx[2], 1, 0, color);
-			_add_vertex(MESH, position[0] + vectorx[0] + vectory[0], position[1] + vectorx[1] + vectory[1], position[2] + vectorx[2] + vectory[2], 1, 1, color);
-			_add_vertex(MESH, position[0] + vectory[0], position[1] + vectory[1], position[2] + vectory[2], 0, 1, color);
+			_add_vertex(MESH, position[0] + vectorx[0], position[1] + vectorx[1], position[2] + vectorx[2], uv[0] + uv_x[0], uv[1] + uv_x[1], color);
+			_add_vertex(MESH, position[0] + vectorx[0] + vectory[0], position[1] + vectorx[1] + vectory[1], position[2] + vectorx[2] + vectory[2], uv[0] + uv_x[0] + uv_y[0], uv[1] + uv_x[1] + uv_y[1], color);
+			_add_vertex(MESH, position[0] + vectory[0], position[1] + vectory[1], position[2] + vectory[2], uv[0] + uv_y[0], uv[1] + uv_y[1], color);
 		}
 		
 		vertex_end(MESH);
