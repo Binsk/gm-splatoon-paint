@@ -18,7 +18,7 @@
   "name":"room_paint_test_3d",
   "parent":{
     "name":"3D Paint Test",
-    "path":"folders/DemoScenes/3D Paint Test.yy",
+    "path":"folders/Scenes/Demos/3D Paint Test.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

@@ -1,0 +1,20 @@
+Splat surfaces have some limitations and design requirements in order to work 
+correctly. These could probably be overcome with some more complex designs, but
+this project is a proof-of-concept so the splat system has been kept simple.
+
+Note:  Splat maps share the UV coordinates of the mesh's original texture.
+
+1. No 2 triangles can overlap UV coordinates as this will cause splatter in
+   more than 1 place when any of the overlapping triangles are hit.
+   
+2. Splat maps are square and require roughly proportional UV mapping to the
+   surface. Having a texture 'stretched' due to odd UV-mapping will cause the
+   splat effect to be stretched as well.
+   
+3. Splat maps use a specific detail level (aka. resolution) which must be taken
+   into account when drawing the splat to the buffer otherwise some surfaces
+   will have larger / smaller splat effects.
+   
+4. It is possible for splat painting to overlap part of the UV map onto another
+   part of the UV map, making splats able to 'overlap' to other parts of the mesh.
+   This should be considered when creating the layout of the UV map.

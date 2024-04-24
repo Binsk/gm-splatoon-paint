@@ -4,13 +4,14 @@
   "eventList":[
     {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"","%Name":"","collisionObjectId":null,"eventNum":64,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
   "name":"obj_paint_test_3d_controller",
   "overriddenProperties":[],
   "parent":{
     "name":"3D Paint Test",
-    "path":"folders/DemoScenes/3D Paint Test.yy",
+    "path":"folders/Scenes/Demos/3D Paint Test.yy",
   },
   "parentObjectId":null,
   "persistent":false,

@@ -17,6 +17,26 @@ function Renderable() constructor {
         return index;
     }
     
+    function get_barycentric_weights(p, a, b, c){
+        var v0 = vector3_sub_vector3(b, a);
+        var v1 = vector3_sub_vector3(c, a);
+        var v2 = vector3_sub_vector3(p, a);
+        var d00 = vector3_dot(v0, v0);
+        var d01 = vector3_dot(v0, v1);
+        var d11 = vector3_dot(v1, v1);
+        var d20 = vector3_dot(v2, v0);
+        var d21 = vector3_dot(v2, v1);
+        var d = d00 * d11 - sqr(d01);
+        
+        var v = (d11 * d20 - d01 * d21) / d;
+        var w = (d00 * d21 - d01 * d20) / d;
+        var u = 1.0 - v - w;
+        return {
+            u, v, w
+        }
+        
+    }
+    
     /// @desc   Render the object to the scene.
     function render(){};
     

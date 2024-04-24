@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"scr_vector3",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_vector3",
+  "parent":{
+    "name":"Functions",
+    "path":"folders/Functions.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

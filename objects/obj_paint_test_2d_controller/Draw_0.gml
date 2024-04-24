@@ -60,12 +60,12 @@ mouse_y_last = mouse_y;
 
 // Set our splat shader so it knows how to interpret the colors
 shader_set(shd_render_splat);
-shader_set_uniform_f(shader_u_fcolora, 1.0 / 255 * color_get_red(color_a), 
-									   1.0 / 255 * color_get_green(color_a),
-									   1.0 / 255 * color_get_blue(color_a));
-shader_set_uniform_f(shader_u_fcolorb, 1.0 / 255 * color_get_red(color_b), 
-									   1.0 / 255 * color_get_green(color_b),
-									   1.0 / 255 * color_get_blue(color_b));
+shader_set_uniform_f(shader_u_fcolora, 1.0 / 255 * color_get_red(SplatMesh.COLOR_A), 
+									   1.0 / 255 * color_get_green(SplatMesh.COLOR_A),
+									   1.0 / 255 * color_get_blue(SplatMesh.COLOR_A));
+shader_set_uniform_f(shader_u_fcolorb, 1.0 / 255 * color_get_red(SplatMesh.COLOR_B), 
+									   1.0 / 255 * color_get_green(SplatMesh.COLOR_B),
+									   1.0 / 255 * color_get_blue(SplatMesh.COLOR_B));
 texture_set_stage(shader_u_steamdata, surface_get_texture(surface_splat));
 draw_surface(surface_splat, 0, 0); // Surface here not really used; overlayed by second sampler
 shader_reset();
