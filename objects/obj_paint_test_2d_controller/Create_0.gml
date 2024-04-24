@@ -5,8 +5,6 @@
 
 #region PROPERTIES
 surface_splat = -1; // Surface used to store splat indices + alpha
-color_a = c_orange;	// Team colors; can be any color
-color_b = c_purple;
 
 shader_u_fcolora = shader_get_uniform(shd_render_splat, "u_vColorA");
 shader_u_fcolorb = shader_get_uniform(shd_render_splat, "u_vColorB");

@@ -1,6 +1,7 @@
-function SplatBlockMesh(x = 0, y = 0, z = 0) : SplatMesh(x, y, z) constructor {
+function SplatBlockMesh(x = 0, y = 0, z = 0, splat_resolution=512) : SplatMesh(x, y, z, splat_resolution) constructor {
 	#region PROPERTIES
-	static MESH = undefined;
+	static MESH = undefined; // Default mesh and collision for testing
+	static COLLISION = undefined;
 	#endregion
 	
 	#region INIT
@@ -91,6 +92,34 @@ function SplatBlockMesh(x = 0, y = 0, z = 0) : SplatMesh(x, y, z) constructor {
 		}
 		
 		vertex_end(MESH);
+		
+		// COLLISION = buffer_create(2 * 60, buffer_fixed, 1);
+		// buffer_collision = COLLISION; // Done so we can use the triangle set functions
+		generate_collision_buffer(12);
+		
+		for (var i = 0; i < 6; ++i){
+			var position = position_array[i];
+			var vectorx = vectorx_array[i];
+			var vectory = vectory_array[i];
+			var uv = uvposition_array[i];
+			var uv_x = uvx_array[i];
+			var uv_y = uvy_array[i];
+			
+			var p1 = point_format_struct(position[0], position[1], position[2]);
+			var p2 = point_format_struct(position[0] + vectorx[0], position[1] + vectorx[1], position[2] + vectorx[2]);
+			var p3 = point_format_struct(position[0] + vectory[0], position[1] + vectory[1], position[2] + vectory[2]);
+			var p4 = point_format_struct(position[0] + vectorx[0] + vectory[0], position[1] + vectorx[1] + vectory[1], position[2] + vectorx[2] + vectory[2]);
+			var uv1 = uv_format_struct(uv[0], uv[1]);
+			var uv2 = uv_format_struct(uv[0] + uv_x[0], uv[1] + uv_x[1]);
+			var uv3 = uv_format_struct(uv[0] + uv_y[0], uv[1] + uv_y[1]);
+			var uv4 = uv_format_struct(uv[0] + uv_x[0] + uv_y[0], uv[1] + uv_x[1] + uv_y[1]);
+			
+			set_collision_triangle(i * 2, p1, p2, p3, uv1, uv2, uv3);
+			set_collision_triangle(i * 2 + 1, p2, p4, p3, uv2, uv4, uv3);
+		}
+		
+		COLLISION = buffer_collision;
+		buffer_collision = undefined;
 	}
 	
 	set_render_mesh(MESH);

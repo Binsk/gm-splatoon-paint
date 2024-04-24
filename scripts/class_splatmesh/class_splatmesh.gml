@@ -1,7 +1,7 @@
 /// ABOUT
 /// A SplatMesh is a static mesh that can have ink dynamically splatted on its
 /// surface. This requires significantly more RAM/vRAM.
-function SplatMesh(x = 0, y = 0, z = 0, splat_resolution=128) : StaticMesh(x, y, z) constructor{
+function SplatMesh(x = 0, y = 0, z = 0, splat_resolution=512) : StaticMesh(x, y, z) constructor{
 	#region PROPERTIES
 	static SHADER_U_FCOLORA = shader_get_uniform(shd_render_splat, "u_vColorA");
 	static SHADER_U_FCOLORB = shader_get_uniform(shd_render_splat, "u_vColorB");
@@ -11,10 +11,13 @@ function SplatMesh(x = 0, y = 0, z = 0, splat_resolution=128) : StaticMesh(x, y,
 	
 	surface_splat = -1;	// A surface of splat info in vRAM
 	buffer_splat = -1;	// Regular RAM copy of surface_splat for sampling / regen
+	
+	p_free = free;
 	#endregion
 	
 	#region METHODS
 	function free(){
+		p_free();
 		if (surface_exists(surface_splat))
 			surface_free(surface_splat);
 			
