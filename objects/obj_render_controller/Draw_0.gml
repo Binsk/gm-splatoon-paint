@@ -1,4 +1,3 @@
-
 matrix_set(matrix_view, obj_camera.get_view_matrix());
 matrix_set(matrix_projection, obj_camera.get_projection_matrix());
 

@@ -153,6 +153,7 @@ function StaticMesh(x = 0, y = 0, z = 0) : Renderable() constructor{
     ///         If 'early_exit' is set to true, only the first intersection is returned
     ///         If 'culling' is set to true, the ray will not collide with the 'back side' of the triangle
     function get_ray_intersections(ray, early_exit=false, culling=false){
+		update_matrices();
         var array = [];
         var triangle_count = buffer_get_size(buffer_collision) / 60;
         

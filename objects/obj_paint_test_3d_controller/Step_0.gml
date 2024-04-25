@@ -1,3 +1,4 @@
+// Spin the camera around the block
 with (obj_camera){
 	y = 12;
 	

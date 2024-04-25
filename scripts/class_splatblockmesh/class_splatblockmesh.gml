@@ -4,6 +4,21 @@ function SplatBlockMesh(x = 0, y = 0, z = 0, splat_resolution=512) : SplatMesh(x
 	static COLLISION = undefined;
 	#endregion
 	
+	#region METHODS
+	/// @note	We override the parent free so it doesn't free the render/collision
+	///			data due to it being shared between all SplatBlockMesh instances.
+	function free(){
+		if (surface_exists(surface_splat))
+			surface_free(surface_splat);
+			
+		surface_splat = -1;
+	}
+	
+	function set_render_mesh(){
+		throw "cannot change render mesh of SplatBlockMesh instance!";
+	}
+	#endregion
+	
 	#region INIT
 	// Define the basic cube mesh:
 	if (is_undefined(MESH)){
@@ -119,9 +134,8 @@ function SplatBlockMesh(x = 0, y = 0, z = 0, splat_resolution=512) : SplatMesh(x
 		}
 		
 		COLLISION = buffer_collision;
-		buffer_collision = undefined;
 	}
 	
-	set_render_mesh(MESH);
+	vbuffer_render = MESH;
 	#endregion
 }
