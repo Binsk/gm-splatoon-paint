@@ -24,6 +24,7 @@ function point_format_struct(x, y, z){
 /// @param	{ray}		ray		ray to check collisions with
 /// @param	{point}		origin	origin point of the plane
 /// @param	{vector3}	normal	normal vector of the plane
+/// @param	{bool} culling? whether or not to cull back-face ray checks
 function get_ray_plane_intersection(ray, origin, normal, culling=false){
 	var dot_direction = vector3_dot(normal, ray.direction);
 	var dot_location = -vector3_dot(normal, vector3_sub_vector3(ray.position, origin));
@@ -52,6 +53,7 @@ function get_ray_plane_intersection(ray, origin, normal, culling=false){
 /// @param	{point} p2		second point of the triangle
 /// @param	{point} p3		third point of the triangle
 /// @param	{vector3} n?	normal of the triangle; if unspecified it is auto-calculated
+/// @param	{bool} culling? whether or not to cull back-face ray checks
 function get_ray_triangle_intersection(ray, p1, p2, p3, n=undefined, culling=false){
 	// Calculate the normal if needed
 	if (is_undefined(n)){
