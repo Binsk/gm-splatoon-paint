@@ -1,0 +1,21 @@
+There are a number of differences between OpenGL and DirectX and GameMaker
+doesn't compensate for any of them, it seems, and my knowledge of their
+intricacies is not where it should be.
+
+OpenGL uses a right-handed coordinate system and column-major matrices.
+DirectX uses a left-handed coordinate system and row-major matrices.
+
+GameMaker's matrix generation doesn't change between platforms and it converts
+GLSLES shaders to HLSL automatically (of which, the extent it handles the matrix
+transposes I am unsure). 
+
+I designed the systems Linux-first and only made things work with Windows half-
+heartedly. A number of things needed to be jankily adjusted with the projection
+matrix as well as screen-to-projection coordinates when calculating rays.
+
+The point being, the way rendering is handled is extremely janky and could be
+addressed much better than it is for multi-platform support, but I don't have
+enough know-how to do so elegantly.
+
+Maybe someday GameMaker will actually switch to Vulkan and fix most of these
+inconsistencies. :)

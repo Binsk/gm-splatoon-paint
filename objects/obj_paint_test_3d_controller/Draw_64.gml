@@ -1,8 +1,22 @@
 var mx = mouse_x;
 var my = mouse_y;
-draw_circle_color(mx, my, 32, c_lime, c_lime, true);
+var preview_size = 386; // Size of texture preview
+if (surface_exists(cube.surface_splat)){ // Render splat preview UV map
+	shader_set(shd_render_splat);
+	shader_set_uniform_f(SplatMesh.SHADER_U_FCOLORA, 1.0 / 255 * color_get_red(SplatMesh.COLOR_A), 
+										   1.0 / 255 * color_get_green(SplatMesh.COLOR_A),
+										   1.0 / 255 * color_get_blue(SplatMesh.COLOR_A));
+	shader_set_uniform_f(SplatMesh.SHADER_U_FCOLORB, 1.0 / 255 * color_get_red(SplatMesh.COLOR_B), 
+										   1.0 / 255 * color_get_green(SplatMesh.COLOR_B),
+										   1.0 / 255 * color_get_blue(SplatMesh.COLOR_B));
+	texture_set_stage(SplatMesh.SHADER_U_TEAMDATA, surface_get_texture(cube.surface_splat));
+	draw_sprite_stretched(spr_block, 0, 0, room_height - preview_size, preview_size, preview_size);
+	shader_reset();
+}
 
-var mouse_ray = screen_to_ray_(mx, room_height - my, matrix_get_inverse(obj_camera.get_view_matrix()), matrix_get_inverse(obj_camera.get_projection_matrix()));
+draw_circle_color(mx, my, 32, c_lime, c_lime, true); // Render 'cursor'
+
+var mouse_ray = screen_to_ray(mx, room_height - my, matrix_get_inverse(obj_camera.get_view_matrix()), matrix_get_inverse(obj_camera.get_projection_matrix()));
 
 draw_text_color(12, 12, "Mouse: " + string(mx) +" x " + string(my), c_white, c_white, c_white, c_white, 1.0);
 draw_text_color(12, 12, "\nRay: " + string(mouse_ray), c_white, c_white, c_white, c_white, 1.0);
@@ -41,6 +55,14 @@ if (array_length(collisions) > 0){
 }
 
 // Handle paint splatter application:
+if (is_undefined(collision) and mouse_x < preview_size and mouse_y > room_height - preview_size) // Allow painting on the preview
+	collision = {
+		uv : {
+			u : mouse_x / preview_size,
+			v : (mouse_y - (room_height - preview_size)) / preview_size
+		}
+	};
+	
 if (not is_undefined(collision) and surface_exists(cube.surface_splat)){
 	surface_set_target(cube.surface_splat);
 	draw_circle_color(collision.uv.u * surface_get_width(cube.surface_splat), collision.uv.v * surface_get_height(cube.surface_splat), 16, splat_mask_color, splat_mask_color, false);

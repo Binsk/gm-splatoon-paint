@@ -32,6 +32,7 @@
   },
   "name":"splatoon-paint",
   "resources":[
+    {"id":{"name":"DX vs GL","path":"notes/DX vs GL/DX vs GL.yy",},},
     {"id":{"name":"UV Mapping","path":"notes/UV Mapping/UV Mapping.yy",},},
     {"id":{"name":"obj_camera","path":"objects/obj_camera/obj_camera.yy",},},
     {"id":{"name":"obj_paint_test_2d_controller","path":"objects/obj_paint_test_2d_controller/obj_paint_test_2d_controller.yy",},},

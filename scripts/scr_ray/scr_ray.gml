@@ -89,9 +89,12 @@ function get_ray_triangle_intersection(ray, p1, p2, p3, n=undefined, culling=fal
 }
 
 /// @desc	Takes a screen-space point and converts it into a world-space ray.
-function screen_to_ray_(x, y, matrix_view_inv, matrix_projection_inv){
+function screen_to_ray(x, y, matrix_view_inv, matrix_projection_inv){
 	var px = (x / room_width)  * 2.0 - 1.0;
 	var py = (1.0 - y / room_height)  * 2.0 - 1.0;
+	
+	if (os_type == os_windows)
+		py = -py;
 	
 	var point_far = matrix_transform_vertex(matrix_projection_inv, px, py, 1, 1);
 	var point_near = matrix_transform_vertex(matrix_projection_inv, px, py, 0, 1);
