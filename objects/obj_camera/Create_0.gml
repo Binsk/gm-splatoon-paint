@@ -13,11 +13,30 @@ look_z = 0;
 
 #region METHODS
 function get_view_matrix(){
-	return matrix_build_lookat(x, y, z, look_x, look_y, look_z, 0, 1, 0);
+	return matrix_build_lookat(x, y, z, look_x, look_y, look_z, 0, os_type == os_windows ? -1 : 1, 0);
 }
 
 function get_projection_matrix(){
-	return matrix_build_projection_perspective_fov(os_type != os_windows ? -60 : 60, room_width / room_height, 0.01, 1024);
+	var fov = 60;
+	var aspect = room_width / room_height;
+	var znear = 0.01;
+	var zfar = 1024;
+	var yfov = -2 * arctan(dtan(fov/2) * aspect);
+	
+	if (os_type = os_windows)
+		aspect = -aspect;
+	
+	var h = 1 / tan(yfov * 0.5);
+	var w = h / aspect;
+	var a = zfar / (zfar - znear);
+	var b = (-znear * zfar) / (zfar - znear);
+	var matrix = [
+		w, 0, 0, 0,
+		0, h, 0, 0,
+		0, 0, a, 1,
+		0, 0, b, 0
+		];
+	return matrix;
 }
 #endregion
 

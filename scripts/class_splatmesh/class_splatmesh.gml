@@ -35,9 +35,11 @@ function SplatMesh(x = 0, y = 0, z = 0, splat_resolution=512) : StaticMesh(x, y,
 		matrix_set(matrix_world, model_matrix);
 		
 		if (not surface_exists(surface_splat)){
+			surface_depth_disable(true); // We don't need to waste the vRAM and it goobers painting due to z-test anyways
 			var resolution = sqrt(buffer_get_size(buffer_splat));
 			surface_splat = surface_create(resolution, resolution, surface_r8unorm);
 			buffer_set_surface(buffer_splat, surface_splat, 1);
+			surface_depth_disable(false);
 		}
 		
 		shader_set(shd_render_splat);

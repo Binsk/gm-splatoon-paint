@@ -44,3 +44,11 @@ function Renderable() constructor {
     function free(){};
     #endregion
 }
+
+
+// Done to generate the static variables for easy access:
+var foo = new StaticMesh();
+delete foo;
+
+foo = new SplatMesh();
+delete foo;

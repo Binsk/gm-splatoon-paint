@@ -230,7 +230,3 @@ function StaticMesh(x = 0, y = 0, z = 0) : Renderable() constructor{
     }
     #endregion
 }
-
-// Done to generate the VFORMAT value for easy static calls
-var foo = new StaticMesh();
-delete foo;
