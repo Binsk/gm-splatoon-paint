@@ -1,9 +1,11 @@
 # About
 
-A proof-of-concept and 'just for fun' project that aims to implement the basic idea of Splatoon's 3D splat system; both in terms of rendering and character movement.
+I finally got to mess with Splatoon a bit and was mildly inspired by the paint mechanics thinking, "I could do that".
 
-As GameMaker is not a 3D engine this project will have a lot of extra elements as well in order to load in and render 3D resources but it will be tailored only to what is necessary to demonstrate this tech demo.
+This project is me challenging myself to implement the mechanic for GameMaker, an engine I am very fluent with and also completely lacking in 3D focus which would make this more fun to do. My end goal is to have dynamically paintable 3D terrain, extremely basic character movement, and a way to detect painted locations on the CPU efficiently to allow for the character to 'swim' in the ink like in Splatoon.
+
+This project is just for fun, casual, and done in my spare time as a stress-reliever.
 
 # Platform
 
-At the time of this commit I am developing this solely for Linux, in my spare time, and only as a project to relieve stress and have some fun. It is very likely I will go through and make sure this runs on Windows at some point but it is not my goal at the moment.
+At the time of this commit I am developing this solely for Linux. I have already gone back to a Windows VM to tweak things so they would also render correctly there (which ended up being a huge pain). I'll likely keep going back every now and again to make sure things are working on both Windows and Linux but Linux gets priority here.
