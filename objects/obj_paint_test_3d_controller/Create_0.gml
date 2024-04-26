@@ -1,7 +1,7 @@
-#region INIT
 /// ABOUT
 /// A simple 3D test scene that allows you to paint on the surface of a spinning
 /// cube. Left-click to paint color A and right-cluck to paint color B
+#region INIT
 
 // Spawn the base render controller and generate a cube for us to look at
 instance_create_layer(0, 0, "Instances", obj_render_controller);

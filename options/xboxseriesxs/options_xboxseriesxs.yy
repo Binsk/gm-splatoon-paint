@@ -1,10 +1,7 @@
 {
-  "$GMXboxSeriesXSOptions":"v1",
+  "$GMXboxSeriesXSOptions":"",
   "%Name":"Xbox Series XS",
   "name":"Xbox Series XS",
-  "option_xboxseriesxs_advancedmemorymodel_one_x":false,
-  "option_xboxseriesxs_advancedmemorymodel_ss":false,
-  "option_xboxseriesxs_advancedmemorymodel_sx":false,
   "option_xboxseriesxs_content_id":"",
   "option_xboxseriesxs_description":"Your Description",
   "option_xboxseriesxs_display_name":"Created with GameMaker",

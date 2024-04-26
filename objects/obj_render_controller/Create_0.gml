@@ -4,7 +4,8 @@
 ///
 /// This rendering pipeline is VERY basic and is only as complicated as needed
 /// to display this demo. It does no instance culling of any kind and simply
-/// renders everything in the rendering list from front to back.
+/// renders everything in the rendering list from front to back with no special
+/// effects or transluscency support.
 
 #region PROPERTIES
 render_instance_list = ds_list_create(); // List of Renderable instances to render

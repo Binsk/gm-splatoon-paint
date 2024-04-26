@@ -1,0 +1,2 @@
+renderable.free();
+delete renderable;

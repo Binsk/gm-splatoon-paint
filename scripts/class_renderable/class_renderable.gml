@@ -52,3 +52,6 @@ delete foo;
 
 foo = new SplatMesh();
 delete foo;
+
+foo = new SplatBlockMesh();
+delete foo;

@@ -33,7 +33,7 @@ function SplatBlockMesh(x = 0, y = 0, z = 0, splat_resolution=512) : SplatMesh(x
 			[-0.5, +0.5, -0.5],	// Western wall
 			
 			[-0.5, +0.5, -0.5],	// Cap
-			[+0.5, -0.5, +0.5]	// Base
+			[-0.5, -0.5, +0.5]	// Base
 		];
 		
 			// Vectors defining the local x/y axes
@@ -44,7 +44,7 @@ function SplatBlockMesh(x = 0, y = 0, z = 0, splat_resolution=512) : SplatMesh(x
 			[+0, +0, +1],		// Western wall
 			
 			[+1, +0, +0],		// Cap
-			[-1, +0, +0]		// Base
+			[+1, +0, +0]		// Base
 		];
 		
 		var vectory_array = [

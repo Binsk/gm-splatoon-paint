@@ -113,3 +113,16 @@ function screen_to_ray(x, y, matrix_view_inv, matrix_projection_inv){
 
 	return ray_format_struct(point_near[0], point_near[1], point_near[2], vector_direction.x, vector_direction.y, vector_direction.z);
 }
+
+function point_in_aabb(point, point_min, point_max){
+	if (clamp(point.x, point_min.x, point_max.x) != point.x)
+		return false;
+	
+	if (clamp(point.z, point_min.z, point_max.z) != point.z)
+		return false;
+	
+	if (clamp(point.y, point_min.y, point_max.y) != point.y)
+		return false;
+		
+	return true;
+}
