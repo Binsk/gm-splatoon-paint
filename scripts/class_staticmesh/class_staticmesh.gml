@@ -65,11 +65,12 @@ function StaticMesh(x = 0, y = 0, z = 0) : Renderable() constructor{
         texture_render = texture;
     }
     
-    function update_matrices(){
-        if (not is_model_matrix_changed)
+    function update_matrices(force=false){
+        if (not is_model_matrix_changed and not force)
             return;
         
-        model_matrix = matrix_build(position[$ AXIS_LABEL[0]], position[$ AXIS_LABEL[1]], position[$ AXIS_LABEL[2]], rotation[$ AXIS_LABEL[0]], rotation[$ AXIS_LABEL[1]], rotation[$ AXIS_LABEL[2]], scale[$ AXIS_LABEL[0]], scale[$ AXIS_LABEL[1]], scale[$ AXIS_LABEL[2]]);
+        is_model_matrix_changed = false;
+        model_matrix = matrix_build(position.x, position.y, position.z, rotation.x, rotation.y, rotation.z, scale.x, scale.y, scale.z);
         model_matrix_inv = matrix_get_inverse(model_matrix);
     }
     

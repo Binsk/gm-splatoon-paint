@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"class_billboardmesh",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"class_billboardmesh",
+  "parent":{
+    "name":"Rendering",
+    "path":"folders/Classes/Rendering.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

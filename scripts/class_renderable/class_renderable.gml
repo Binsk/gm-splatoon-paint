@@ -48,10 +48,17 @@ function Renderable() constructor {
 
 // Done to generate the static variables for easy access:
 var foo = new StaticMesh();
+foo.free();
 delete foo;
 
 foo = new SplatMesh();
+foo.free();
 delete foo;
 
 foo = new SplatBlockMesh();
+foo.free();
+delete foo;
+
+foo = new BillboardMesh();
+foo.free();
 delete foo;

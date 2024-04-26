@@ -137,5 +137,6 @@ function SplatBlockMesh(x = 0, y = 0, z = 0, splat_resolution=512) : SplatMesh(x
 	}
 	
 	vbuffer_render = MESH;
+	buffer_collision = COLLISION;
 	#endregion
 }

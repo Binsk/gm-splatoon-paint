@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"class_signaler",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"class_signaler",
+  "parent":{
+    "name":"Classes",
+    "path":"folders/Classes.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

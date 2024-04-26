@@ -35,6 +35,38 @@ function get_intesection_array(collidable){
 	
 	return array;
 }
+
+// To make things less convoluted, this check only checks the first collision
+// of each instance.
+function get_line_collision_array(point_a, point_b){
+	var dir = vector3_format_struct(point_b.x - point_a.x, point_b.y - point_a.y, point_b.z - point_a.z);
+	var length = vector3_magnitude(dir);
+	dir = vector3_normalize(dir);
+	var ray = ray_format_struct(point_a.x, point_a.y, point_a.z, dir.x, dir.y, dir.z);
+	var array = [];
+	
+	for (var i = 0; i < ds_list_size(physics_instance_list); ++i){
+		var instance = physics_instance_list[| i];
+		var renderable = instance.renderable;
+		if (is_undefined(renderable.buffer_collision))
+			continue;
+		
+		var collisions = renderable.get_ray_intersections(ray, true, true);
+		
+		if (array_length(collisions) > 0){
+			var distance = vector3_magnitude(vector3_sub_vector3(collisions[0].intersection, point_a));
+			if (distance > length) // Too far away; the ray hit but not our line
+				continue;
+			
+			array_push(array, {
+				renderable,
+				data : collisions[0]
+			});
+		}
+	}
+	
+	return array;
+}
 #endregion
 
 #region INIT
