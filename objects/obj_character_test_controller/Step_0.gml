@@ -1,0 +1,1 @@
+renderable_terrain_array[1].rotation.y = 180 * current_time / 4000;

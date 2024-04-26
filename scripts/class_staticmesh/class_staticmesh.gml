@@ -1,16 +1,19 @@
 /// ABOUT
-/// A static mesh is a simple mesh that has one unchanging render state.
+/// A static mesh is a simple mesh that has one unchanging render state and has
+/// a colidable instance tied to it.
 function StaticMesh(x = 0, y = 0, z = 0) : Renderable() constructor{
     #region PROPERTIES
     static VFORMAT = undefined;
+    static AXIS_LABEL = ["x", "y", "z"];
     
-    position = [x, y, z];
-    rotation = [0, 0, 0]; // Euler angles (in degrees)
-    scale = [1, 1, 1];
+    position = point_format_struct(x, y, z);
+    rotation = point_format_struct(0, 0, 0); // Euler angles (in degrees)
+    scale = point_format_struct(1, 1, 1);
     model_matrix = matrix_build_identity();
     model_matrix_inv = matrix_build_identity();
     vbuffer_render = undefined;     // Vertex buffer for rendering to the screen
-    buffer_collision = undefined;   // Regular buffer for calculating collisions (in the format per-triangle [p1,p2,p3,uv1,uv2,uv3,n])
+    	/// @note buffer_collision is NOT used by the physics system; only for paint splats
+    buffer_collision = undefined;   // Regular buffer for calculating splat collisions (in the format per-triangle [p1,p2,p3,uv1,uv2,uv3,n])
     texture_render = -1;
     is_model_matrix_changed = true;
     #endregion
@@ -20,10 +23,10 @@ function StaticMesh(x = 0, y = 0, z = 0) : Renderable() constructor{
     function set_position(x, y, z){
         var data = [x, y, z];
         for (var i = 0; i < 3; ++i){
-            if (position[i] == data[i])
+            if (position[$ AXIS_LABEL[i]] == data[i])
                 continue;
             
-            position[i] = data[i];
+            position[$ AXIS_LABEL[i]] = data[i];
             is_model_matrix_changed = true;
         }
     }
@@ -31,10 +34,10 @@ function StaticMesh(x = 0, y = 0, z = 0) : Renderable() constructor{
     function set_rotation(x, y, z){
         var data = [x, y, z];
         for (var i = 0; i < 3; ++i){
-            if (rotation[i] == data[i])
+            if (rotation[$ AXIS_LABEL[i]] == data[i])
                 continue;
             
-            rotation[i] = data[i];
+            rotation[$ AXIS_LABEL[i]] = data[i];
             is_model_matrix_changed = true;
         }
     }
@@ -42,10 +45,10 @@ function StaticMesh(x = 0, y = 0, z = 0) : Renderable() constructor{
     function set_scale(x, y, z){
         var data = [x, y, z];
         for (var i = 0; i < 3; ++i){
-            if (scale[i] == data[i])
+            if (scale[$ AXIS_LABEL[i]] == data[i])
                 continue;
             
-            scale[i] = data[i];
+            scale[$ AXIS_LABEL[i]] = data[i];
             is_model_matrix_changed = true;
         }
     }
@@ -66,7 +69,7 @@ function StaticMesh(x = 0, y = 0, z = 0) : Renderable() constructor{
         if (not is_model_matrix_changed)
             return;
         
-        model_matrix = matrix_build(position[0], position[1], position[2], rotation[0], rotation[1], rotation[2], scale[0], scale[1], scale[2]);
+        model_matrix = matrix_build(position[$ AXIS_LABEL[0]], position[$ AXIS_LABEL[1]], position[$ AXIS_LABEL[2]], rotation[$ AXIS_LABEL[0]], rotation[$ AXIS_LABEL[1]], rotation[$ AXIS_LABEL[2]], scale[$ AXIS_LABEL[0]], scale[$ AXIS_LABEL[1]], scale[$ AXIS_LABEL[2]]);
         model_matrix_inv = matrix_get_inverse(model_matrix);
     }
     
@@ -75,7 +78,7 @@ function StaticMesh(x = 0, y = 0, z = 0) : Renderable() constructor{
         if (is_undefined(vbuffer_render))
             return;
         
-        matrix_push(matrix_world, model_matrix);
+        matrix_set(matrix_world, model_matrix);
         vertex_submit(vbuffer_render, pr_trianglelist, texture_render);
         matrix_set(matrix_world, Renderable.MATRIX_IDENTITY);
     }

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"scr_collidable",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_collidable",
+  "parent":{
+    "name":"Physics",
+    "path":"folders/Classes/Physics.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
