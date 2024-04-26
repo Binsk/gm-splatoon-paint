@@ -434,7 +434,7 @@ function signal_controller_inputs(data, player_index, new_input_state, key_array
             continue;
         }
         // Calculate the base signal label. E.g.: "face.left.east"
-        var label = string_join(".", key_array) + string_ext(".{0}", [keys[i]]);
+        var label = string_join_ext(".", key_array) + string_ext(".{0}", [keys[i]]);
         // If not a sub-state, compare values and signal as needed
         if (is_int64(old_value)){
                 // State change, signal.

@@ -1,11 +1,11 @@
-/// @description Scan Physics
-var collisions = obj_physics_controller.get_intesection_array(collidable);
+/// @description Player Movement
+gravity_current -= gravity_strength;
+velocity_current.x = lerp(velocity_current.x, input_velocity.x, player_rigidity);
+if (state == PLAYER_STATE.walking)
+	velocity_current.y += gravity_current;
+/// @stub handle climbing walls when swimming
 
-if (array_length(collisions) <= 0)
-	return;
-	
-var push_vector = vector3_format_struct(0, 0, 0); // Direction to push outside of the instances
-for (var i = 0; i < array_length(collisions); ++i)
-	push_vector = vector3_add_vector3(push_vector, collisions[i].get_push_vector(collidable));
-
-renderable.position = vector3_add_vector3(renderable.position, push_vector);
+velocity_current.z = lerp(velocity_current.z, input_velocity.z, player_rigidity);
+renderable.position.x += velocity_current.x;
+renderable.position.y += velocity_current.y;
+renderable.position.z += velocity_current.z;
