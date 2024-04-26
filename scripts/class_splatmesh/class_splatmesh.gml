@@ -27,6 +27,18 @@ function SplatMesh(x = 0, y = 0, z = 0, splat_resolution=512) : StaticMesh(x, y,
 		buffer_splat = undefined;
 	}
 	
+	/// @desc	Copy the changes from the surface back to our buffer so it can
+	///			be sampled.
+	///	@note	A potential great optimization would simply be to have shape buffers
+	///			that apply to the buffer instead of having to copy the whole surface
+	///			back again. 
+	function update_splat_buffer(){
+		if (not surface_exists(surface_splat))
+			return;
+			
+		buffer_get_surface(buffer_splat, surface_splat, 0);
+	}
+	
 	function render(){
 		update_matrices();
 		if (is_undefined(vbuffer_render))
