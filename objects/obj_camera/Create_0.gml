@@ -39,6 +39,11 @@ function get_projection_matrix(){
 	return matrix;
 }
 
+function get_lookat_vector(){
+	var vector = vector3_format_struct(look_x - x, look_y - y, look_z - z);
+	return vector3_normalize(vector);
+}
+
 /// Yaw and pitch functions are based on a y-up system for simplicity
 function get_yaw(){
 	return point_direction(x, z, look_x, look_z);

@@ -22,6 +22,15 @@ function add_renderable(renderable){
 	
 	ds_list_add(render_instance_list, renderable);
 }
+
+function remove_renderable(renderable){
+	for (var i = ds_list_size(render_instance_list) - 1; i >= 0; --i){
+		if (render_instance_list[| i].get_index() == renderable.get_index()){
+			ds_list_delete(render_instance_list, i);
+			return;
+		}
+	}
+}
 #endregion
 
 #region INIT

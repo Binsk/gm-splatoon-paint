@@ -65,8 +65,8 @@ function StaticMesh(x = 0, y = 0, z = 0) : Renderable() constructor{
         texture_render = texture;
     }
     
-    function update_matrices(){
-        if (not is_model_matrix_changed)
+    function update_matrices(force=false){
+        if (not is_model_matrix_changed and not force)
             return;
         
         is_model_matrix_changed = false;

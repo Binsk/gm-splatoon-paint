@@ -38,6 +38,7 @@
     {"id":{"name":"UV Mapping","path":"notes/UV Mapping/UV Mapping.yy",},},
     {"id":{"name":"obj_camera","path":"objects/obj_camera/obj_camera.yy",},},
     {"id":{"name":"obj_character_test_controller","path":"objects/obj_character_test_controller/obj_character_test_controller.yy",},},
+    {"id":{"name":"obj_inkball","path":"objects/obj_inkball/obj_inkball.yy",},},
     {"id":{"name":"obj_input_controller","path":"objects/obj_input_controller/obj_input_controller.yy",},},
     {"id":{"name":"obj_paint_test_2d_controller","path":"objects/obj_paint_test_2d_controller/obj_paint_test_2d_controller.yy",},},
     {"id":{"name":"obj_paint_test_3d_controller","path":"objects/obj_paint_test_3d_controller/obj_paint_test_3d_controller.yy",},},

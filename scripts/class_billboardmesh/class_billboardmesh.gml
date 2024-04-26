@@ -33,8 +33,16 @@ function BillboardMesh(x = 0, y = 0, z = 0, color=c_white, scale=1.0) : Renderab
         texture_render = texture;
     }
     
-    function update_matrices(){
-        if (not is_model_matrix_changed)
+    function set_color(color){
+    	self.color = color;
+    }
+    
+    function set_scale(scale){
+    	self.scale = scale;
+    }
+    
+    function update_matrices(force=false){
+        if (not is_model_matrix_changed and not force)
             return;
         
         is_model_matrix_changed = false;
@@ -48,7 +56,7 @@ function BillboardMesh(x = 0, y = 0, z = 0, color=c_white, scale=1.0) : Renderab
     
 	function render(){
 		update_matrices();
-		gpu_set_cullmode(cull_noculling);
+		gpu_set_zwriteenable(false);
 		shader_set(shd_billboard_ink);
 		shader_set_uniform_f(SHADER_U_FSCALE, scale);
 		shader_set_uniform_f(SHADER_U_VCOLOR, 1 / 255 * color_get_red(color), 1 / 255 * color_get_green(color), 1 / 255 * color_get_blue(color));
@@ -56,6 +64,7 @@ function BillboardMesh(x = 0, y = 0, z = 0, color=c_white, scale=1.0) : Renderab
 		vertex_submit(MESH, pr_trianglelist, texture_render);
 		matrix_set(matrix_world, Renderable.MATRIX_IDENTITY);
 		shader_reset();
+		gpu_set_zwriteenable(true);
 	}
 	#endregion
 	

@@ -2,7 +2,7 @@
 gravity_current -= gravity_strength;
 
 velocity_current.x = lerp(velocity_current.x, input_velocity.x, player_rigidity);
-if (state == PLAYER_STATE.walking)
+if (state == PLAYER_STATE.walking or state == PLAYER_STATE.shooting)
 	velocity_current.y += gravity_current;
 /// @stub handle climbing walls when swimming
 
