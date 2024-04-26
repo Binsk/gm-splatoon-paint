@@ -49,3 +49,33 @@ function vector3_normalize(v){
 function vector3_magnitude(v){
 	return sqrt(sqr(v.x) + sqr(v.y) + sqr(v.z));
 }
+
+function vector3_rotate(vector, axis, radians) {
+	var par = vector3_mul_scalar(axis, vector3_dot(vector, axis) / vector3_dot(axis, axis));
+	var perp = vector3_sub_vector3(vector, par);
+
+	if (vector3_magnitude(perp) <= 0) // Nothing to rotate
+		return vector;
+	
+	// Find orth vector:
+	var orth = vector3_cross(axis, perp);
+
+	if (vector3_magnitude(orth) <= 0) // Nothing to rotate
+		return vector;
+	
+	// Calculate linear combination:
+	var s1 = cos(radians) / vector3_magnitude(perp);
+	var s2 = sin(radians) / vector3_magnitude(orth);
+
+	var lin = vector3_add_vector3(vector3_mul_scalar(perp, s1),
+								  vector3_mul_scalar(orth, s2));
+	lin = vector3_mul_scalar(lin, vector3_magnitude(perp));
+
+	return vector3_add_vector3(lin, par);
+}
+
+function vector3_angle_difference(vector1, vector2) {
+	vector1 = vector3_normalize(vector1);
+	vector2 = vector3_normalize(vector2);
+	return arccos(vector3_dot(vector1, vector2));
+}

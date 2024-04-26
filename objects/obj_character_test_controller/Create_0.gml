@@ -6,9 +6,16 @@
 // Generate primary controller systems:
 instance_create_layer(0, 0, "Instances", obj_render_controller);
 instance_create_layer(0, 0, "Instances", obj_physics_controller);
+instance_create_layer(0, 0, "Instances", obj_input_controller);
 
 // Create the player:
 instance_create_layer(0, 0, "Instances", obj_player);
+obj_input_controller.set_scan_refresh_rate(2500);
+obj_input_controller.set_maximum_connections(1);
+obj_input_controller.signaler.add_signal("connected", function(player){
+	var slot_id = obj_input_controller.get_player_slot(player);
+	gamepad_set_axis_deadzone(slot_id, 0.5);
+});
 
 // Create static terrain:
 renderable_terrain_array = [];

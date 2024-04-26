@@ -38,6 +38,16 @@ function get_projection_matrix(){
 		];
 	return matrix;
 }
+
+/// Yaw and pitch functions are based on a y-up system for simplicity
+function get_yaw(){
+	return point_direction(x, z, look_x, look_z);
+}
+
+function get_pitch(){
+	var xzlen = point_distance(x, z, look_x, look_z);
+	return angle_difference(0, point_direction(0, y, xzlen, look_y));
+}
 #endregion
 
 #region INIT
