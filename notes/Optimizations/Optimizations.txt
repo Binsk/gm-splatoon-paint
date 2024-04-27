@@ -1,0 +1,26 @@
+This projecti is a proof-of-concept so a ton of short-cuts were made to get things
+added quickly. This means pretty much nothing is optimized. That said, I attempted
+to keep things as modular as possible so it would be easy to add them in should
+this code ever be expanded upon.
+
+Here are a few noteworthy areas, but there are more:
+
+1.	Rendering; there is no culling or instance sorting whatsoever and everything
+	is simply rendered straight as-is. It is all based on a list so deleting lots
+	of instances (like flying ink) is relatively slow.
+  
+2.	Collisions; likewise there is no culling or sorting of instances. A single
+	collision check scans ALL collision objects. Not only could objects be sorted
+	but, for things like the ink-ray checking, a ray-AABB check should probably
+	be done first to eliminate more complex meshes.
+  
+3.	Ink buffers for detecting when a player is on some ink are simply copied
+	from the surface when there is an update. For small ink surfaces and single-
+	splatter situations it isn't that big a deal; however a high-res map w/ 
+	ink flying everywhere would bring things to a crawl.
+	
+Also, ink surfaces use a small u8 single-channel format to reduce vRAM usage,
+however if the rendering system is expanded to look nicer w/ specular lighting
+and normal maps this surface will likely have to contain procedurally-generated
+values for these effects to give the ink some texture. This will require a number
+of changes upon both generation and the relevant shaders.

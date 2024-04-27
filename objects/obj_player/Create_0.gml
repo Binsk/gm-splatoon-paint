@@ -14,7 +14,7 @@ cam_pitch = 12; // Desired pitch where positive = down
 cam_rigidity = 0.2; // Lower rigidity = more 'bouncy' camera movement
 player_rigidity = 0.15; // Affects both movement & rotation
 player_walk_speed = 0.15;
-player_swim_speed = 0.25;
+player_swim_speed = 0.20;
 player_enemyink_speed = 0.02; // When in bad ink, your speed
 velocity_current = vector3_format_struct(0, 0, 0);
 input_velocity = vector3_format_struct(0, 0, 0); // Velocity calculated by the controller input
@@ -28,6 +28,8 @@ firing_timer = firing_length;
 ink_fire_color = 2; // Can be swapped w/ L1 button'
 ink_team_color = 2;	// Our color
 ink_floor_color = 0; // Counts for floor and walls (when swimming)
+
+vector_up = vector3_format_struct(0, 1, 0); // Used for swimming
 #endregion
 
 
@@ -36,17 +38,37 @@ ink_floor_color = 0; // Counts for floor and walls (when swimming)
 ///			to move the player.
 function input_move(player, x_axis, y_axis){
 	if (abs(x_axis) < 0.01 and abs(y_axis) < 0.01){
-		input_velocity.x = 0;
-		input_velocity.z = 0;
+		// We can cheat since our up-vector will always be axis aligned. Whatever
+		// axis is 0 doesn't have gravity so we can apply 'friction' by setting it to 0
+		if (vector_up.x == 0)
+			input_velocity.x = 0;
+		
+		if (vector_up.y == 0)
+			input_velocity.y = 0;
+		
+		if (vector_up.z == 0)
+			input_velocity.z = 0;
 		return;
 	}
 		
-	// Calculate rotation relative to the camera
+	// Calculate rotation relative to the camera & surface:
+	var vector_right;
+	var vector_look = vector3_normalize(vector3_project(obj_camera.get_lookat_vector(), vector_up)); 
+		// We don't want to actually treat walls 'equally' singe we always want 'up' to ve y-up, even though
+		// the surface's 'up' may be on x or z. As such, force the y-axis always to be one direction:
+	if (vector_look.y < 0)
+		vector_look.y = -vector_look.y;
+		
+	vector_right = vector3_normalize(vector3_cross(vector_look, vector_up)); 
+		
+	var vector_forward = vector3_normalize(vector3_cross(vector_up, vector_right));
+	var movement_vector = vector3_add_vector3(vector3_mul_scalar(vector_right, x_axis), vector3_mul_scalar(vector_forward, -y_axis));
+	
+	/// Calculate visual rotation (only applicable when not swimming)
 	var rotation, move_speed = player_walk_speed;
-	var move_2d_vector = vector3_format_struct(-y_axis, 0, -x_axis);
-	move_2d_vector = vector3_rotate(move_2d_vector, vector3_format_struct(0, 1, 0), degtorad(-obj_camera.get_yaw()));
-	var angle = point_direction(0, 0, move_2d_vector.x, move_2d_vector.z);
+	var angle = point_direction(0, 0, movement_vector.x, -movement_vector.z);
 	var dif = angle_difference(angle, renderable.rotation.y);
+
 	if (state == PLAYER_STATE.walking){
 		rotation = lerp(renderable.rotation.y, renderable.rotation.y + dif, player_rigidity);
 		renderable.rotation.y = rotation;
@@ -57,17 +79,21 @@ function input_move(player, x_axis, y_axis){
 		rotation = lerp(renderable.rotation.y, renderable.rotation.y + dif, player_rigidity);
 		renderable.rotation.y = rotation;
 		move_speed = (ink_floor_color == ink_team_color ? player_swim_speed : player_enemyink_speed);
+		if (not is_on_ground)
+			move_speed = player_walk_speed;
 	}
 	
 	// Override movement speed in bad ink
 	if (ink_floor_color > 0 and ink_floor_color != ink_team_color)
 		move_speed = player_enemyink_speed;
 	
-	// Calculate desired player velocity
-		// Note: We re-calculate vector due to the rotation lerp not using our exact rotation value
+	// Calculate desired player velocity; we use a slerp to properly account
+	// for player rigidity
 	var input_mag = sqrt(sqr(x_axis) + sqr(y_axis));
-	input_velocity.x = dcos(rotation) * move_speed * input_mag
-	input_velocity.z = dsin(rotation) * move_speed * input_mag;
+	if (vector3_magnitude(input_velocity) == 0)
+		input_velocity = vector3_mul_scalar(vector3_normalize(movement_vector), move_speed * input_mag);
+	else 
+		input_velocity = vector3_mul_scalar(vector3_normalize(vector3_slerp(vector3_normalize(input_velocity), vector3_normalize(movement_vector), player_rigidity)), move_speed * input_mag);
 }
 
 function input_look(player, x_axis, y_axis){
@@ -77,11 +103,14 @@ function input_look(player, x_axis, y_axis){
 }
 
 function input_jump(player){
-	if (not get_is_on_ground() or state == PLAYER_STATE.swimming)
+	if (not get_is_on_ground())
 		return;
 		
 	// Simple 1-height jump
-	velocity_current.y = 0.15;
+	velocity_current = vector3_add_vector3(velocity_current, vector3_mul_scalar(vector_up, 0.15));
+	
+	if (state == PLAYER_STATE.swimming and vector_up.y != 1) // Bit of a special case for jumping off walls
+		state = PLAYER_STATE.walking;
 }
 
 function input_fire(player, color){

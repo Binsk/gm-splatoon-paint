@@ -43,6 +43,9 @@ function vector3_mul_scalar(v1, scalar){
 
 function vector3_normalize(v){
 	var m = vector3_magnitude(v);
+	if (m == 0)
+		return vector3_format_struct(0, 0, 0);
+		
 	return vector3_format_struct(v.x / m, v.y / m, v.z / m);
 }
 
@@ -78,4 +81,58 @@ function vector3_angle_difference(vector1, vector2) {
 	vector1 = vector3_normalize(vector1);
 	vector2 = vector3_normalize(vector2);
 	return arccos(vector3_dot(vector1, vector2));
+}
+
+function vector3_invert(vector){
+	return vector3_format_struct(
+		vector.x == 0 ? 0 : 1.0 / vector.x,
+		vector.y == 0 ? 0 : 1.0 / vector.y,
+		vector.z == 0 ? 0 : 1.0 / vector.z
+	);
+}
+
+/// @desc	Lerps components across from one vector to another.
+function vector3_lerp(vector1, vector2, percent){
+	return vector3_format_struct(
+		lerp(vector1.x, vector2.x, percent),
+		lerp(vector1.y, vector2.y, percent),
+		lerp(vector1.z, vector2.z, percent)
+	);
+}
+
+/// @desc	Performs a spherical lerp between two vectors; note that both vectors
+///			must be normalized!
+function vector3_slerp(vector1, vector2, percent) {
+	percent = clamp(percent, 0, 1);
+	var dot = vector3_dot(vector1, vector2);
+	if (dot < 0.0){ // Work around "long path" issue
+		dot = -dot;
+		vector2 = vector3_invert(vector2);
+	}
+	
+		// If values are almost the same, use lerp instead as we would get issues:
+	if (dot > 0.9995)
+		return vector3_normalize(vector3_lerp(vector1, vector2, percent));
+		
+	var angle = arccos(dot);	// Angle  between two vectors
+	var angle_partial = angle * percent; // Angle between vector1 and final vector
+
+	var angle_sin = sin(angle);
+	var angle_sin_partial = sin(angle_partial);
+
+	var scalar_vec1 = cos(angle_partial) - dot * angle_sin_partial / angle_sin,
+		scalar_vec2 = angle_sin_partial / angle_sin;
+	
+	return vector3_add_vector3(	vector3_mul_scalar(vector1, scalar_vec1), 
+								vector3_mul_scalar(vector2, scalar_vec2));
+
+
+}
+
+/// @desc	Projects a vector onto a normal (effectively removing that axis from the vector)
+///			The normal should be normalized.
+function vector3_project(vector, normal){
+	var dot = vector3_dot(vector, normal); // Magnitude of vector along the normal
+	var normal_mag = vector3_mul_scalar(normal, dot);
+	return vector3_sub_vector3(vector, normal_mag);
 }
