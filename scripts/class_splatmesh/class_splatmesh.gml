@@ -11,6 +11,7 @@ function SplatMesh(x = 0, y = 0, z = 0, splat_resolution=512) : StaticMesh(x, y,
 	
 	surface_splat = -1;	// A surface of splat info in vRAM
 	buffer_splat = -1;	// Regular RAM copy of surface_splat for sampling / regen
+	is_buffer_update_required = false;
 	
 	p_free = free;
 	#endregion
@@ -27,6 +28,10 @@ function SplatMesh(x = 0, y = 0, z = 0, splat_resolution=512) : StaticMesh(x, y,
 		buffer_splat = undefined;
 	}
 	
+	function request_splat_buffer_update(){
+		is_buffer_update_required = true;
+	}
+	
 	/// @desc	Copy the changes from the surface back to our buffer so it can
 	///			be sampled.
 	///	@note	A potential great optimization would simply be to have shape buffers
@@ -39,12 +44,26 @@ function SplatMesh(x = 0, y = 0, z = 0, splat_resolution=512) : StaticMesh(x, y,
 		buffer_get_surface(buffer_splat, surface_splat, 0);
 	}
 	
+	/// @desc	Return the team index at the specified UV coordinate.
+	///			0 = no team, otherwise it is team 1 or 2
+	function get_splat_index(uv){
+		var size = sqrt(buffer_get_size(buffer_splat));
+		var u = floor(uv.u * size);
+		var v = floor(uv.v * size);
+		
+		buffer_seek(buffer_splat, buffer_seek_start, v * size + u);
+		var value = ceil(buffer_read(buffer_splat, buffer_u8) / 128);
+		return value;
+	}
+	
 	function render(){
 		update_matrices();
 		if (is_undefined(vbuffer_render))
 			return;
 
 		matrix_set(matrix_world, model_matrix);
+		if (is_buffer_update_required)
+			update_splat_buffer();
 		
 		if (not surface_exists(surface_splat)){
 			surface_depth_disable(true); // We don't need to waste the vRAM and it goobers painting due to z-test anyways

@@ -31,6 +31,7 @@ function remove_renderable(renderable){
 		}
 	}
 }
+
 #endregion
 
 #region INIT

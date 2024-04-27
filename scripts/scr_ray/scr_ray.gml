@@ -30,7 +30,7 @@ function get_ray_plane_intersection(ray, origin, normal, culling=false){
 	var dot_location = -vector3_dot(normal, vector3_sub_vector3(ray.position, origin));
 	
 	// Check if parallel (where no collision would occur)
-	if (abs(dot_direction) < 0.00001)
+	if (abs(dot_direction) <= 0.001)
 		return undefined;
 	
 	if (culling and dot_direction < 0)

@@ -33,16 +33,15 @@ array_push(collidable_terrain_array, collidable);
 obj_physics_controller.add_collidable(collidable);
 
 	// Paintable spinning block
-	// Note: We don't add a proper collision because we haven't implemented OBB collisions
-	//		 so it is only here for painting. The dummy collidable is simply to have the paint
-	//		 scan the renderable since I designed the scanning a bit poorly.
 renderable = new SplatBlockMesh(12, 4, 0, 128);
 renderable.set_scale(4, 4, 4);
 renderable.set_texture(sprite_get_texture(spr_block, 0));
 array_push(renderable_terrain_array, renderable)
 obj_render_controller.add_renderable(renderable);
 
-collidable = new Collidable(point_format_struct(0, 0, 0), point_format_struct(0, 0, 0), renderable);
+	// Note: We don't have OBB collisions so the collision check doesn't spin w/ the block; thus we just expand an
+	//		 axis-aligned collision mask past the furthest point a corner would touch
+collidable = new Collidable(point_format_struct(-0.6, -0.6, -0.6), point_format_struct(0.6, 0.6, 0.6), renderable);
 array_push(collidable_terrain_array, collidable);
 obj_physics_controller.add_collidable(collidable);
 
