@@ -12,3 +12,6 @@ renderable.set_position(
 	renderable.position.y + velocity_current.y,
 	renderable.position.z + velocity_current.z
 )
+
+var velocity_mag = vector3_magnitude(velocity_current);
+renderable_billboard.set_position(renderable.position.x, renderable.position.y - 1.0 + cos(pi * current_time / 250) * velocity_mag, renderable.position.z);

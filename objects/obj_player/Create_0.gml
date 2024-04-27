@@ -15,6 +15,7 @@ cam_rigidity = 0.2; // Lower rigidity = more 'bouncy' camera movement
 player_rigidity = 0.15; // Affects both movement & rotation
 player_walk_speed = 0.15;
 player_swim_speed = 0.25;
+player_enemyink_speed = 0.02; // When in bad ink, your speed
 velocity_current = vector3_format_struct(0, 0, 0);
 input_velocity = vector3_format_struct(0, 0, 0); // Velocity calculated by the controller input
 gravity_strength = 0.0005;
@@ -24,8 +25,9 @@ state = PLAYER_STATE.walking;
 firing_length = 8;
 firing_cooldown = 10;
 firing_timer = firing_length;
-ink_color = SplatMesh.COLOR_B; // Can be swapped w/ L1 button
-							   // For this test, COLOR_A is 'enemy' and COLOR_B is 'friendly'
+ink_fire_color = 2; // Can be swapped w/ L1 button'
+ink_team_color = 2;	// Our color
+ink_floor_color = 0; // Counts for floor and walls (when swimming)
 #endregion
 
 
@@ -40,7 +42,7 @@ function input_move(player, x_axis, y_axis){
 	}
 		
 	// Calculate rotation relative to the camera
-	var rotation;
+	var rotation, move_speed = player_walk_speed;
 	var move_2d_vector = vector3_format_struct(-y_axis, 0, -x_axis);
 	move_2d_vector = vector3_rotate(move_2d_vector, vector3_format_struct(0, 1, 0), degtorad(-obj_camera.get_yaw()));
 	var angle = point_direction(0, 0, move_2d_vector.x, move_2d_vector.z);
@@ -51,12 +53,21 @@ function input_move(player, x_axis, y_axis){
 	}
 	else if (state == PLAYER_STATE.shooting)
 		rotation = renderable.rotation.y + dif;
+	else if (state == PLAYER_STATE.swimming){
+		rotation = lerp(renderable.rotation.y, renderable.rotation.y + dif, player_rigidity);
+		renderable.rotation.y = rotation;
+		move_speed = (ink_floor_color == ink_team_color ? player_swim_speed : player_enemyink_speed);
+	}
+	
+	// Override movement speed in bad ink
+	if (ink_floor_color > 0 and ink_floor_color != ink_team_color)
+		move_speed = player_enemyink_speed;
 	
 	// Calculate desired player velocity
 		// Note: We re-calculate vector due to the rotation lerp not using our exact rotation value
 	var input_mag = sqrt(sqr(x_axis) + sqr(y_axis));
-	input_velocity.x = dcos(rotation) * player_walk_speed * input_mag
-	input_velocity.z = dsin(rotation) * player_walk_speed * input_mag;
+	input_velocity.x = dcos(rotation) * move_speed * input_mag
+	input_velocity.z = dsin(rotation) * move_speed * input_mag;
 }
 
 function input_look(player, x_axis, y_axis){
@@ -66,7 +77,7 @@ function input_look(player, x_axis, y_axis){
 }
 
 function input_jump(player){
-	if (not get_is_on_ground())
+	if (not get_is_on_ground() or state == PLAYER_STATE.swimming)
 		return;
 		
 	// Simple 1-height jump
@@ -102,7 +113,7 @@ function input_fire(player, color){
 	instance.velocity_current = vector3_mul_scalar(vector, 1.2);
 	instance.velocity_current = vector3_rotate(instance.velocity_current, vector3_format_struct(0, 1, 0), random_range(-pi / 60, pi / 60))
 	instance.velocity_current = vector3_rotate(instance.velocity_current, rvector, random_range(-pi / 60, pi / 60))
-	instance.renderable.set_color(ink_color);
+	instance.renderable.set_color(ink_fire_color == 1 ? SplatMesh.COLOR_A : SplatMesh.COLOR_B);
 	instance.renderable.set_scale(0.35 + random(0.5));
 }
 
@@ -137,11 +148,17 @@ renderable.set_render_mesh(vertex_duplicate_buffer(SplatBlockMesh.MESH));
 renderable.set_texture(sprite_get_texture(spr_player, 0));
 renderable.set_scale(1, 2, 1);
 
+renderable_billboard = new BillboardMesh(); // Just used so we see SOMETHING when swimming
+renderable_billboard.set_texture(sprite_get_texture(spr_inkball, 0));
+renderable_billboard.set_color(make_color_rgb(170, 0, 255)); // Match the cap of the player sprite
+renderable_billboard.set_visible(false);
+
 // Collidables inherit scaling by their parents
 	// We make the x/z axes a little larger so the corners don't clip when rotating
 collidable = new Collidable(point_format_struct(-0.7, -0.5, -0.7), point_format_struct(0.7, 0.5, 0.7), renderable);
 
 obj_render_controller.add_renderable(renderable); // Makes the instance visible
+obj_render_controller.add_renderable(renderable_billboard);
 obj_physics_controller.add_collidable(collidable); // Not technically needed, but added in the case of multiple characters down the line
 
 // Attach controller inputs
@@ -153,6 +170,6 @@ obj_input_controller.signaler.add_signal("shoulder.right.trigger.button.released
 obj_input_controller.signaler.add_signal("face.right.west", method(id, id.input_swim));
 obj_input_controller.signaler.add_signal("face.right.west.released", method(id, id.input_swim_released));
 obj_input_controller.signaler.add_signal("shoulder.right.bumper.button.pressed", method(id, function(){
-	ink_color = (ink_color == SplatMesh.COLOR_A ? SplatMesh.COLOR_B : SplatMesh.COLOR_A);
+	ink_fire_color = (ink_fire_color == 1 ? 2 : 1);
 }));
 #endregion

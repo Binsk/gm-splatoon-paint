@@ -44,6 +44,18 @@ function SplatMesh(x = 0, y = 0, z = 0, splat_resolution=512) : StaticMesh(x, y,
 		buffer_get_surface(buffer_splat, surface_splat, 0);
 	}
 	
+	/// @desc	Return the team index at the specified UV coordinate.
+	///			0 = no team, otherwise it is team 1 or 2
+	function get_splat_index(uv){
+		var size = sqrt(buffer_get_size(buffer_splat));
+		var u = floor(uv.u * size);
+		var v = floor(uv.v * size);
+		
+		buffer_seek(buffer_splat, buffer_seek_start, v * size + u);
+		var value = ceil(buffer_read(buffer_splat, buffer_u8) / 128);
+		return value;
+	}
+	
 	function render(){
 		update_matrices();
 		if (is_undefined(vbuffer_render))

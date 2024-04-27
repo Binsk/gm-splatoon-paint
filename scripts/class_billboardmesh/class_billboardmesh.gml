@@ -1,4 +1,4 @@
-          /// ABOUT
+/// ABOUT
 /// Opted to make this design specifically for ink billboards since there was
 /// no plan to have other billboarded elements. If more are to come about then
 /// this should likely be converted to a more generic billboard system.
@@ -56,7 +56,6 @@ function BillboardMesh(x = 0, y = 0, z = 0, color=c_white, scale=1.0) : Renderab
     
 	function render(){
 		update_matrices();
-		gpu_set_zwriteenable(false);
 		shader_set(shd_billboard_ink);
 		shader_set_uniform_f(SHADER_U_FSCALE, scale);
 		shader_set_uniform_f(SHADER_U_VCOLOR, 1 / 255 * color_get_red(color), 1 / 255 * color_get_green(color), 1 / 255 * color_get_blue(color));
@@ -64,7 +63,6 @@ function BillboardMesh(x = 0, y = 0, z = 0, color=c_white, scale=1.0) : Renderab
 		vertex_submit(MESH, pr_trianglelist, texture_render);
 		matrix_set(matrix_world, Renderable.MATRIX_IDENTITY);
 		shader_reset();
-		gpu_set_zwriteenable(true);
 	}
 	#endregion
 	

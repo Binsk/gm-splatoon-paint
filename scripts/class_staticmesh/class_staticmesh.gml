@@ -166,7 +166,7 @@ function StaticMesh(x = 0, y = 0, z = 0) : Renderable() constructor{
         var direction_inv = matrix_transform_vertex(model_matrix_inv, ray.direction.x, ray.direction.y, ray.direction.z, 0);
         var ray_inv = {
             position : point_format_struct(position_inv[0], position_inv[1], position_inv[2]),
-            direction : vector3_format_struct(direction_inv[0], direction_inv[1], direction_inv[2]),
+            direction : vector3_normalize(vector3_format_struct(direction_inv[0], direction_inv[1], direction_inv[2])),
         }
         
             // Check against each triangle (SLOW)
@@ -176,7 +176,7 @@ function StaticMesh(x = 0, y = 0, z = 0) : Renderable() constructor{
             var intersection = get_ray_triangle_intersection(ray_inv, tpoints[0], tpoints[1], tpoints[2], tnormal, culling);
             if (is_undefined(intersection))
                 continue;
-            
+
             var tuvs = get_triangle_uvs(i); // UV points of the triangle vertices
                 // Calculate UV coord that our ray actually hits:
             var barycentric_weights = get_barycentric_weights(intersection, tpoints[0], tpoints[1], tpoints[2]);
