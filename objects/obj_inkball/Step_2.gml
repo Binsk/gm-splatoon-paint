@@ -14,6 +14,11 @@ if (not is_undefined(position_previous)){
 			surface_set_target(surface);
 			draw_circle_color(cx, cy, 8, splat_mask_color, splat_mask_color, false);
 			surface_reset_target();
+		
+			// Request the buffer to be updated on the next draw call (used for physical splat detection).
+			/// @note It would be best to just modify the changed bits directly instead of doing a full
+			///		  surface copy; but this is fast enough for the prototype.
+			data.renderable.request_splat_buffer_update();
 		}
 		
 		instance_destroy();

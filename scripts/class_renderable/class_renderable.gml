@@ -10,11 +10,16 @@ function Renderable() constructor {
     static MATRIX_IDENTITY = matrix_build_identity();
     static INDEX_COUNTER = 0;
     index = INDEX_COUNTER++; // Used for quick identification in the renderer
+    is_visible = true;
     #endregion
     
     #region METHODS
     function get_index(){
         return index;
+    }
+    
+    function set_visible(visible){
+        is_visible = visible;
     }
     
     function get_barycentric_weights(p, a, b, c){

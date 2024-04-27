@@ -10,20 +10,24 @@ enum PLAYER_STATE {
 
 #region PROPERTIES
 cam_yaw = 0; // Desired yaw position
-cam_pitch = 12;
+cam_pitch = 12; // Desired pitch where positive = down
 cam_rigidity = 0.2; // Lower rigidity = more 'bouncy' camera movement
-player_rigidity = 0.15;
-player_walk_speed = 0.15; // Movement speed
+player_rigidity = 0.15; // Affects both movement & rotation
+player_walk_speed = 0.15;
 player_swim_speed = 0.25;
 velocity_current = vector3_format_struct(0, 0, 0);
 input_velocity = vector3_format_struct(0, 0, 0); // Velocity calculated by the controller input
 gravity_strength = 0.0005;
 gravity_current = 0;
-is_on_ground = false;
+is_on_ground = false; // Auto-updated after physics checks
 state = PLAYER_STATE.walking;
-fire_timer = 10;
-ink_color = SplatMesh.COLOR_A;
+firing_length = 8;
+firing_cooldown = 10;
+firing_timer = firing_length;
+ink_color = SplatMesh.COLOR_B; // Can be swapped w/ L1 button
+							   // For this test, COLOR_A is 'enemy' and COLOR_B is 'friendly'
 #endregion
+
 
 #region METHODS
 /// @note	We just ignore the player number and allow any connected controller
@@ -74,16 +78,16 @@ function input_fire(player, color){
 	
 	var dif = angle_difference(-obj_camera.get_yaw(), renderable.rotation.y);
 	renderable.rotation.y = lerp(renderable.rotation.y, renderable.rotation.y + dif, player_rigidity);
-	renderable.is_model_matrix_changed = true;
+	renderable.is_model_matrix_changed = true; // Forces the model to physically update next render
 	
-	--fire_timer;
-	if (fire_timer <= 0){
-		if (fire_timer < -10)
-			fire_timer = 8;
+	--firing_timer;
+	if (firing_timer <= 0){
+		if (firing_timer < -firing_cooldown)
+			firing_timer = firing_length;
 		return;
 	}
 	
-	if (fire_timer % 2)
+	if (firing_timer % 2) // Only fire every other frame
 		return;
 	
 	var instance = instance_create_layer(0, 0, "Instances", obj_inkball);
@@ -105,6 +109,14 @@ function input_fire(player, color){
 function input_fire_released(){
 	state = PLAYER_STATE.walking;
 	fire_timer = 8;
+}
+
+function input_swim(){
+	state = PLAYER_STATE.swimming;
+}
+
+function input_swim_released(){
+	state = PLAYER_STATE.walking;
 }
 
 function get_forward_vector(){
@@ -138,6 +150,8 @@ obj_input_controller.signaler.add_signal("joystick.right.axis", method(id, id.in
 obj_input_controller.signaler.add_signal("face.right.south.pressed", method(id, id.input_jump));
 obj_input_controller.signaler.add_signal("shoulder.right.trigger.button", method(id, id.input_fire));
 obj_input_controller.signaler.add_signal("shoulder.right.trigger.button.released", method(id, id.input_fire_released));
+obj_input_controller.signaler.add_signal("face.right.west", method(id, id.input_swim));
+obj_input_controller.signaler.add_signal("face.right.west.released", method(id, id.input_swim_released));
 obj_input_controller.signaler.add_signal("shoulder.right.bumper.button.pressed", method(id, function(){
 	ink_color = (ink_color == SplatMesh.COLOR_A ? SplatMesh.COLOR_B : SplatMesh.COLOR_A);
 }));

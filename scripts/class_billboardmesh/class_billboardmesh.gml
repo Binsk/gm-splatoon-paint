@@ -1,4 +1,4 @@
-/// ABOUT
+          /// ABOUT
 /// Opted to make this design specifically for ink billboards since there was
 /// no plan to have other billboarded elements. If more are to come about then
 /// this should likely be converted to a more generic billboard system.

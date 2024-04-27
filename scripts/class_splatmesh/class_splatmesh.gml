@@ -11,6 +11,7 @@ function SplatMesh(x = 0, y = 0, z = 0, splat_resolution=512) : StaticMesh(x, y,
 	
 	surface_splat = -1;	// A surface of splat info in vRAM
 	buffer_splat = -1;	// Regular RAM copy of surface_splat for sampling / regen
+	is_buffer_update_required = false;
 	
 	p_free = free;
 	#endregion
@@ -25,6 +26,10 @@ function SplatMesh(x = 0, y = 0, z = 0, splat_resolution=512) : StaticMesh(x, y,
 		
 		buffer_delete(buffer_splat);
 		buffer_splat = undefined;
+	}
+	
+	function request_splat_buffer_update(){
+		is_buffer_update_required = true;
 	}
 	
 	/// @desc	Copy the changes from the surface back to our buffer so it can
@@ -45,6 +50,8 @@ function SplatMesh(x = 0, y = 0, z = 0, splat_resolution=512) : StaticMesh(x, y,
 			return;
 
 		matrix_set(matrix_world, model_matrix);
+		if (is_buffer_update_required)
+			update_splat_buffer();
 		
 		if (not surface_exists(surface_splat)){
 			surface_depth_disable(true); // We don't need to waste the vRAM and it goobers painting due to z-test anyways
