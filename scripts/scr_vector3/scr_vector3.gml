@@ -43,6 +43,9 @@ function vector3_mul_scalar(v1, scalar){
 
 function vector3_normalize(v){
 	var m = vector3_magnitude(v);
+	if (m == 0)
+		return vector3_format_struct(0, 0, 0);
+		
 	return vector3_format_struct(v.x / m, v.y / m, v.z / m);
 }
 

@@ -14,7 +14,7 @@ cam_pitch = 12; // Desired pitch where positive = down
 cam_rigidity = 0.2; // Lower rigidity = more 'bouncy' camera movement
 player_rigidity = 0.15; // Affects both movement & rotation
 player_walk_speed = 0.15;
-player_swim_speed = 0.25;
+player_swim_speed = 0.20;
 player_enemyink_speed = 0.02; // When in bad ink, your speed
 velocity_current = vector3_format_struct(0, 0, 0);
 input_velocity = vector3_format_struct(0, 0, 0); // Velocity calculated by the controller input
@@ -79,6 +79,8 @@ function input_move(player, x_axis, y_axis){
 		rotation = lerp(renderable.rotation.y, renderable.rotation.y + dif, player_rigidity);
 		renderable.rotation.y = rotation;
 		move_speed = (ink_floor_color == ink_team_color ? player_swim_speed : player_enemyink_speed);
+		if (not is_on_ground)
+			move_speed = player_walk_speed;
 	}
 	
 	// Override movement speed in bad ink
@@ -106,6 +108,9 @@ function input_jump(player){
 		
 	// Simple 1-height jump
 	velocity_current = vector3_add_vector3(velocity_current, vector3_mul_scalar(vector_up, 0.15));
+	
+	if (state == PLAYER_STATE.swimming and vector_up.y != 1) // Bit of a special case for jumping off walls
+		state = PLAYER_STATE.walking;
 }
 
 function input_fire(player, color){
