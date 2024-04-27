@@ -30,7 +30,7 @@ for (var i = 0; i < array_length(collisions); ++i)
 renderable.position = vector3_add_vector3(renderable.position, push_vector);
 velocity_current = vector3_add_vector3(velocity_current, push_vector);
 
-if (sign(vector3_dot(push_vector, vector_up).y) == sign(vector3_dot(vector_up, vector_up))){
+if (sign(vector3_dot(push_vector, vector_up)) == sign(vector3_dot(vector_up, vector_up))){
 	is_on_ground = true;
 	gravity_current = 0;
 }
