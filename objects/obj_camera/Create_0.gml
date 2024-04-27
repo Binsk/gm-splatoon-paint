@@ -44,6 +44,10 @@ function get_lookat_vector(){
 	return vector3_normalize(vector);
 }
 
+function get_right_vector(){
+	return vector3_normalize(vector3_cross(get_lookat_vector(), vector3_format_struct(0, 1, 0)));
+}
+
 /// Yaw and pitch functions are based on a y-up system for simplicity
 function get_yaw(){
 	return point_direction(x, z, look_x, look_z);

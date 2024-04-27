@@ -10,7 +10,9 @@ if (renderable.position.y < -20){ // Reset falling out of the world
 // Check for collisions w/ ink:
 ink_floor_color = 0;
 	// Check floor first:
-var collisions = obj_physics_controller.get_line_collision_array(vector3_add_vector3(renderable.position, vector3_format_struct(0, -0.75, 0)), vector3_add_vector3(renderable.position, vector3_format_struct(0, -1.25, 0)));
+	
+var vector_base = vector3_add_vector3(renderable.position, vector3_format_struct(0, -0.5, 0));
+var collisions = obj_physics_controller.get_line_collision_array(vector_base, vector3_sub_vector3(vector_base, vector_up));
 if (array_length(collisions) > 0){
 	// We are only going to care about the first collision since >1 would be extremely rare
 	ink_floor_color = collisions[0].renderable.get_splat_index(collisions[0].data.uv);
@@ -28,7 +30,7 @@ for (var i = 0; i < array_length(collisions); ++i)
 renderable.position = vector3_add_vector3(renderable.position, push_vector);
 velocity_current = vector3_add_vector3(velocity_current, push_vector);
 
-if (push_vector.y > 0){
+if (sign(vector3_dot(push_vector, vector_up).y) == sign(vector3_dot(vector_up, vector_up))){
 	is_on_ground = true;
 	gravity_current = 0;
 }
