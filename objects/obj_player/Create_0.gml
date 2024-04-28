@@ -142,8 +142,15 @@ function input_fire(player, color){
 	instance.velocity_current = vector3_mul_scalar(vector, 1.2);
 	instance.velocity_current = vector3_rotate(instance.velocity_current, vector3_format_struct(0, 1, 0), random_range(-pi / 60, pi / 60))
 	instance.velocity_current = vector3_rotate(instance.velocity_current, rvector, random_range(-pi / 60, pi / 60))
-	instance.renderable.set_color(ink_fire_color == 1 ? SplatMesh.COLOR_A : SplatMesh.COLOR_B);
+	
+	if (ink_fire_color == 0)
+		instance.renderable.set_color(c_white)
+	else
+		instance.renderable.set_color(ink_fire_color == 1 ? SplatMesh.COLOR_A : SplatMesh.COLOR_B);
+		
 	instance.renderable.set_scale(0.35 + random(0.5));
+	instance.set_splat_shape(splat_shape_array[irandom_range(0, array_length(splat_shape_array) -1)]);
+	instance.set_team_id(ink_fire_color);
 }
 
 function input_fire_released(){
@@ -199,6 +206,13 @@ obj_input_controller.signaler.add_signal("shoulder.right.trigger.button.released
 obj_input_controller.signaler.add_signal("face.right.west", method(id, id.input_swim));
 obj_input_controller.signaler.add_signal("face.right.west.released", method(id, id.input_swim_released));
 obj_input_controller.signaler.add_signal("shoulder.right.bumper.button.pressed", method(id, function(){
-	ink_fire_color = (ink_fire_color == 1 ? 2 : 1);
+	ink_fire_color = (ink_fire_color + 1) % 3;
 }));
+
+// Generate possible splat shapes for our ink:
+splat_shape_array = [];
+for (var i = 0; i < sprite_get_number(spr_splat); ++i){
+	var shape = new SplatShape(spr_splat, i);
+	array_push(splat_shape_array, shape)
+}
 #endregion

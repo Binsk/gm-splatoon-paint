@@ -1,6 +1,6 @@
 Splat surfaces have some limitations and design requirements in order to work 
-correctly. These could probably be overcome with some more complex designs, but
-this project is a proof-of-concept so the splat system has been kept simple.
+correctly. These could be overcome with some more complex designs, but
+is beyond the scope of this project.
 
 Note:  Splat maps share the UV coordinates of the mesh's original texture.
 
