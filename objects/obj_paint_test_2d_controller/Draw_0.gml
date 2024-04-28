@@ -16,9 +16,9 @@ var splat_mask_color = undefined;
 
 	// Determine if we are painting a splat and for which team
 if (mouse_check_button(mb_left) or mouse_check_button_released(mb_left))
-	splat_mask_color = make_color_rgb(128, 0, 0); // 128 equates to 'team 1' in the shader
+	splat_mask_color = ink_get_mask_color(1);
 else if (mouse_check_button(mb_right) or mouse_check_button_released(mb_right))
-	splat_mask_color = make_color_rgb(255, 0, 0); // 255 equates to 'team 2' in the shader
+	splat_mask_color = ink_get_mask_color(2);
 
 if (not is_undefined(splat_mask_color)){
 	surface_set_target(surface_splat);
@@ -60,12 +60,14 @@ mouse_y_last = mouse_y;
 
 // Set our splat shader so it knows how to interpret the colors
 shader_set(shd_render_splat);
-shader_set_uniform_f(SplatMesh.SHADER_U_FCOLORA, 1.0 / 255 * color_get_red(SplatMesh.COLOR_A), 
-									   1.0 / 255 * color_get_green(SplatMesh.COLOR_A),
-									   1.0 / 255 * color_get_blue(SplatMesh.COLOR_A));
-shader_set_uniform_f(SplatMesh.SHADER_U_FCOLORB, 1.0 / 255 * color_get_red(SplatMesh.COLOR_B), 
-									   1.0 / 255 * color_get_green(SplatMesh.COLOR_B),
-									   1.0 / 255 * color_get_blue(SplatMesh.COLOR_B));
+var team_color_a = ink_get_color(1);
+var team_color_b = ink_get_color(2);
+shader_set_uniform_f(SplatMesh.SHADER_U_FCOLORA, 1.0 / 255 * color_get_red(team_color_a), 
+									   1.0 / 255 * color_get_green(team_color_a),
+									   1.0 / 255 * color_get_blue(team_color_a));
+shader_set_uniform_f(SplatMesh.SHADER_U_FCOLORB, 1.0 / 255 * color_get_red(team_color_b), 
+									   1.0 / 255 * color_get_green(team_color_b),
+									   1.0 / 255 * color_get_blue(team_color_b));
 texture_set_stage(SplatMesh.SHADER_U_TEAMDATA, surface_get_texture(surface_splat));
 draw_surface(surface_splat, 0, 0); // Surface here not really used; overlayed by second sampler
 shader_reset();

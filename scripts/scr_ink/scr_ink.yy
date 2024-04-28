@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"scr_ink",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_ink",
+  "parent":{
+    "name":"Functions",
+    "path":"folders/Functions.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

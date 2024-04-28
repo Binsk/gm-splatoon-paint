@@ -62,7 +62,7 @@ function SplatShape(sprite, subimage, xscale=1.0, yscale=1.0) constructor{
 			
 			var color = c_white;
 			if (team_id > 0)
-				color = (team_id == 1 ? make_color_rgb(128, 0, 0) : make_color_rgb(255, 0, 0));
+				color = ink_get_mask_color(team_id);
 			
 			surface_set_target(surface);
 			if (team_id = 0) // If no team we need to erase part of the surface instead
@@ -124,11 +124,7 @@ function SplatShape(sprite, subimage, xscale=1.0, yscale=1.0) constructor{
 				if (color == 0) // No mask data
 					continue;
 				
-				if (team_id == 0) // No team gets data wiped
-					color = 0;
-				else
-					color = (team_id == 1 ? 128 : 255); // Team data gets set to appropriate shader mask values
-				
+				color = ink_get_mask(team_id);
 				buffer_write(buffer, buffer_u8, color);
 			}
 		}

@@ -146,7 +146,7 @@ function input_fire(player, color){
 	if (ink_fire_color == 0)
 		instance.renderable.set_color(c_white)
 	else
-		instance.renderable.set_color(ink_fire_color == 1 ? SplatMesh.COLOR_A : SplatMesh.COLOR_B);
+		instance.renderable.set_color(ink_get_color(ink_fire_color))
 		
 	instance.renderable.set_scale(0.35 + random(0.5));
 	instance.set_splat_shape(splat_shape_array[irandom_range(0, array_length(splat_shape_array) -1)]);
