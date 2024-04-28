@@ -27,9 +27,7 @@ if (state == PLAYER_STATE.swimming){
 	
 	if (array_length(collisions) > 0){
 		if (ink_team_color == collisions[0].renderable.get_splat_index(collisions[0].data.uv)){
-/// @fixme	Noticed the normal vectors are backwards; flipping them causes a host of issues so
-///			the relevant systems need to be changed as well.
-			vector_up = vector3_mul_scalar(collisions[0].data.normal, -1);
+			vector_up = collisions[0].data.normal;
 			gravity_current = 0;
 			ink_floor_color = ink_team_color;
 		}

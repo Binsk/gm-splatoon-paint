@@ -109,7 +109,7 @@ function StaticMesh(x = 0, y = 0, z = 0) : Renderable() constructor{
         buffer_write_series(buffer_collision, buffer_f16, [uv3.u, uv3.v]);
             // Normal
         
-        var n = vector3_cross(vector3_sub_vector3(p1, p2), vector3_sub_vector3(p1, p3));
+        var n = vector3_cross(vector3_sub_vector3(p1, p2), vector3_sub_vector3(p3, p1));
         n = vector3_normalize(n);
         buffer_write_series(buffer_collision, buffer_f32, [n.x, n.y, n.z]);
     }
