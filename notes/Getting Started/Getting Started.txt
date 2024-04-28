@@ -1,0 +1,39 @@
+The best place to get started is looking in the 'Scenes' folder and picking a
+scene's controller object. The project, by default, starts in the
+"Character Test" scene and the controller object for that scene generates
+all necessary objects.
+
+Looking through the create event of obj_character_test_controller (as well as
+the create events of objects it instantiates) will show you how things are put
+together.
+
+Important objects:
+
+* obj_render_controller / obj_camera - Handles the entire 3D rendering system
+* obj_physics_controller - Handles detecting player collisions & ink ball
+  collisions.
+* obj_player - Controls the camera and handles ink swimming and ink detection
+
+Important classes:
+
+* StaticMesh / SplatMesh - the former handles ray-intersections and getting
+  splat data (including triangle UVs required for ink painting) while the latter
+  handles actually storing the splat texture and splat detection data.
+ 
+Uncommon elements:
+
+I use some systems I designed from long ago to accomplish common tasks I would
+come across. You don't need to know how they work but it is good to be aware of
+what they are if you plan on tinkering:
+
+* Signals - If you are familiar with Godot, you know what these are. If you are
+  not, then think of them as a fancy script_execute() that is tied to a string
+  label. You can tie not only multiple 'script_execute' calls to a label but also
+  argument values so that, whenever that label is referenced, the scripts get
+  executed and passed the arguments automatically.
+
+* obj_input_controller - A fancy way of converting joystick inputs into
+  Signal calls. You will notice all of obj_player controls are done through signals
+  and that these signals come from obj_input_controller.
+  
+That's pretty much it! 

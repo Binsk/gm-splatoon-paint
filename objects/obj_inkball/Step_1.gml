@@ -8,4 +8,3 @@ renderable.update_matrices(true);
 // Simple 'out of world' check:
 if (renderable.position.y < -10)
 	instance_destroy();
-	
