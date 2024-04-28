@@ -29,11 +29,11 @@ function get_ray_plane_intersection(ray, origin, normal, culling=false){
 	var dot_direction = vector3_dot(normal, ray.direction);
 	var dot_location = -vector3_dot(normal, vector3_sub_vector3(ray.position, origin));
 	
-	// Check if parallel (where no collision would occur)
+	// Check if ~perpendicular (where no collision would occur)
 	if (abs(dot_direction) <= 0.001)
 		return undefined;
 	
-	if (culling and dot_direction < 0)
+	if (culling and dot_direction > 0)
 		return undefined;
 	
 	// Check if we are behind the plane and pointing away:
@@ -70,19 +70,19 @@ function get_ray_triangle_intersection(ray, p1, p2, p3, n=undefined, culling=fal
 		// Edge 1
 	var point = vector3_sub_vector3(point_intersection, p1);
 	var cross = vector3_cross(vector3_sub_vector3(p2, p1), point);
-	if (vector3_dot(n, cross) < 0)
+	if (vector3_dot(n, cross) > 0)
 		return undefined;
 	
 		// Edge 2
 	point = vector3_sub_vector3(point_intersection, p2);
 	cross = vector3_cross(vector3_sub_vector3(p3, p2), point);
-	if (vector3_dot(n, cross) < 0)
+	if (vector3_dot(n, cross) > 0)
 		return undefined;
 		
 		// Edge 3
 	point = vector3_sub_vector3(point_intersection, p3);
 	cross = vector3_cross(vector3_sub_vector3(p1, p3), point);
-	if (vector3_dot(n, cross) < 0)
+	if (vector3_dot(n, cross) > 0)
 		return undefined;
 	
 	return point_intersection;
