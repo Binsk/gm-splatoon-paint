@@ -52,7 +52,7 @@ function SplatMesh(x = 0, y = 0, z = 0, splat_resolution=512) : StaticMesh(x, y,
 		var v = floor(uv.v * size);
 		
 		buffer_seek(buffer_splat, buffer_seek_start, v * size + u);
-		var value = ceil(buffer_read(buffer_splat, buffer_u8) / 128);
+		var value = ink_get_team_from_mask(buffer_read(buffer_splat, buffer_u8));
 		return value;
 	}
 	

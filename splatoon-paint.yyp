@@ -59,6 +59,7 @@
     {"id":{"name":"class_staticmesh","path":"scripts/class_staticmesh/class_staticmesh.yy",},},
     {"id":{"name":"scr_buffer","path":"scripts/scr_buffer/scr_buffer.yy",},},
     {"id":{"name":"scr_collidable","path":"scripts/scr_collidable/scr_collidable.yy",},},
+    {"id":{"name":"scr_ink","path":"scripts/scr_ink/scr_ink.yy",},},
     {"id":{"name":"scr_matrix","path":"scripts/scr_matrix/scr_matrix.yy",},},
     {"id":{"name":"scr_ray","path":"scripts/scr_ray/scr_ray.yy",},},
     {"id":{"name":"scr_vector3","path":"scripts/scr_vector3/scr_vector3.yy",},},
