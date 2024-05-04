@@ -54,12 +54,14 @@ function input_move(player, x_axis, y_axis){
 	// Calculate rotation relative to the camera & surface:
 	var vector_right;
 	var vector_look = vector3_normalize(vector3_project(obj_camera.get_lookat_vector(), vector_up)); 
+	
 		// We don't want to actually treat walls 'equally' singe we always want 'up' to ve y-up, even though
 		// the surface's 'up' may be on x or z. As such, force the y-axis always to be one direction:
 	if (vector_look.y < 0)
 		vector_look.y = -vector_look.y;
 		
-	vector_right = vector3_normalize(vector3_cross(vector_look, vector_up)); 
+	vector_right = vector3_cross(vector_look, vector_up);
+	vector_right = vector3_normalize(vector3_project(vector_right, vector_up)); // Make sure we are parallel w/ the surface
 		
 	var vector_forward = vector3_normalize(vector3_cross(vector_up, vector_right));
 	var movement_vector = vector3_add_vector3(vector3_mul_scalar(vector_right, x_axis), vector3_mul_scalar(vector_forward, -y_axis));
