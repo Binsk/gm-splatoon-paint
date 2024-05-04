@@ -169,6 +169,8 @@ function StaticMesh(x = 0, y = 0, z = 0) : Renderable() constructor{
             direction : vector3_normalize(vector3_format_struct(direction_inv[0], direction_inv[1], direction_inv[2])),
         }
         
+        var rotation_matrix = matrix_build(0, 0, 0, rotation.x, rotation.y, rotation.z, 1, 1, 1);
+        
             // Check against each triangle (SLOW)
         for (var i = 0; i < triangle_count; ++i){
             var tpoints = get_triangle_points(i);
@@ -184,7 +186,9 @@ function StaticMesh(x = 0, y = 0, z = 0) : Renderable() constructor{
                 u : tuvs[0].u * barycentric_weights.u + tuvs[1].u * barycentric_weights.v + tuvs[2].u * barycentric_weights.w,
                 v : tuvs[0].v * barycentric_weights.u + tuvs[1].v * barycentric_weights.v + tuvs[2].v * barycentric_weights.w
             }
+            
             var intersection_world = matrix_transform_vertex(model_matrix, intersection.x, intersection.y, intersection.z, 1);
+            tnormal = array_to_vector3(matrix_transform_vertex(rotation_matrix, tnormal.x, tnormal.y, tnormal.z, 0));
             
             var data = {
                 index : i, // Triangle index
