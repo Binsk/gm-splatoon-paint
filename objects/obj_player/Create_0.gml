@@ -22,8 +22,8 @@ gravity_strength = 0.0005;
 gravity_current = 0;
 is_on_ground = false; // Auto-updated after physics checks
 state = PLAYER_STATE.walking;
-firing_length = 8;
-firing_cooldown = 10;
+firing_length = 2;
+firing_cooldown = 5;
 firing_timer = firing_length;
 ink_fire_color = 2; // Can be swapped w/ L1 button'
 ink_team_color = 2;	// Our color
@@ -128,9 +128,6 @@ function input_fire(player, color){
 			firing_timer = firing_length;
 		return;
 	}
-	
-	if (firing_timer % 2) // Only fire every other frame
-		return;
 	
 	var instance = instance_create_layer(0, 0, "Instances", obj_inkball);
 	instance.renderable.position.x = renderable.position.x + dcos(renderable.rotation.y);
