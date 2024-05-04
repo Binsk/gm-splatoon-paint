@@ -78,6 +78,7 @@ function SplatShape(sprite, subimage, xscale=1.0, yscale=1.0) constructor{
 		if (buffer_shape < 0){ // No shape created yet; generate it into a buffer
 			var surface = surface_create(sprite_get_width(sprite), sprite_get_height(sprite), surface_r8unorm);
 			surface_set_target(surface);
+			draw_clear(0);
 			draw_sprite(sprite, subimage, sprite_get_xoffset(sprite), sprite_get_yoffset(sprite));
 			surface_reset_target();
 			
@@ -89,7 +90,7 @@ function SplatShape(sprite, subimage, xscale=1.0, yscale=1.0) constructor{
 		
 		if (buffer < 0)
 			return;
-		
+
 		// Paint data into buffer:
 		var splat_buffer_size = buffer_get_size(buffer); // Data of buffer we are modifying
 		var splat_size = floor(sqrt(splat_buffer_size));
@@ -102,7 +103,7 @@ function SplatShape(sprite, subimage, xscale=1.0, yscale=1.0) constructor{
 		var start_y = floor(splat_size * uv.v - buffer_size.height * 0.5 * yscale);
 		var width = floor(buffer_size.width * xscale);
 		var height = floor(buffer_size.height * yscale);
-		
+
 		for (var j = 0; j < height; ++j){
 			for (var i = 0; i < width; ++i){
 				var sx = start_x + i; // Which coordinates to modify
@@ -110,7 +111,7 @@ function SplatShape(sprite, subimage, xscale=1.0, yscale=1.0) constructor{
 				var splat_index = splat_size * sy + sx;
 				if (splat_index < 0 or splat_index >= splat_buffer_size) // Out of bounds mesh surface
 					continue;
-				
+
 				var px = floor(i / xscale); // Which coordinates we are pulling new data from
 				var py = floor(j / yscale);
 				var index = py * buffer_size.width + px;
@@ -121,9 +122,10 @@ function SplatShape(sprite, subimage, xscale=1.0, yscale=1.0) constructor{
 				buffer_seek(buffer_shape, buffer_seek_start, index);
 				
 				var color = buffer_read(buffer_shape, buffer_u8);
+
 				if (color == 0) // No mask data
 					continue;
-				
+					
 				color = ink_get_mask(team_id);
 				buffer_write(buffer, buffer_u8, color);
 			}
