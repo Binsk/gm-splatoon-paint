@@ -38,16 +38,9 @@ vector_up = vector3_format_struct(0, 1, 0); // Used for swimming
 ///			to move the player.
 function input_move(player, x_axis, y_axis){
 	if (abs(x_axis) < 0.01 and abs(y_axis) < 0.01){
-		// We can cheat since our up-vector will always be axis aligned. Whatever
-		// axis is 0 doesn't have gravity so we can apply 'friction' by setting it to 0
-		if (vector_up.x == 0)
-			input_velocity.x = 0;
-		
-		if (vector_up.y == 0)
-			input_velocity.y = 0;
-		
-		if (vector_up.z == 0)
-			input_velocity.z = 0;
+		// Remove all values except the normal vector (due to gravity)
+		var normal_projection = vector3_project(input_velocity, vector_up);
+		input_velocity = vector3_sub_vector3(input_velocity, normal_projection);
 		return;
 	}
 		
